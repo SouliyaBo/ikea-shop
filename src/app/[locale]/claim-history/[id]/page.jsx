@@ -219,7 +219,7 @@ export default function MoneyUserHistory({ params }) {
 							</div>
 							<div className="text-[12px] text-center">
 								<p>{t("ifTheWithdrawnAmountIsNotCreditedWithin30MinutesPleaseReachOutToOurSupportTeam")}</p>
-								<a href="https://line.me/R/ti/p/@442avwvd?ts=05062354&oat_content=url" target="_bank" className={`hover:bg-white/20 flex justify-center underline`}>
+								<a href="https://line.me/ti/p/jLKF6aZaYc" target="_bank" className={`hover:bg-white/20 flex justify-center underline`}>
 									<Phone className="w-4 h-4 mr-2" /><span>{t("contactServiceDepartment")}</span>
 								</a>
 							</div>

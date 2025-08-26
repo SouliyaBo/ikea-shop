@@ -311,7 +311,7 @@ export default function Profile({ params }) {
 				<div className="relative">
 					<div className={`bg-gradient-to-r ${currentVip.color} px-6 pt-12 pb-20 sm:pb-24 md:pb-28`}>
 						<div className="absolute top-4 right-4">
-							<a href="https://line.me/R/ti/p/@442avwvd?ts=05062354&oat_content=url" target="_bank" className={`${currentVip.textColor} hover:bg-white/20 flex`}>
+							<a href="https://line.me/ti/p/jLKF6aZaYc" target="_bank" className={`${currentVip.textColor} hover:bg-white/20 flex`}>
 								<Phone className="w-4 h-4 mr-2" /><span>Contact Support</span>
 							</a>
 						</div>

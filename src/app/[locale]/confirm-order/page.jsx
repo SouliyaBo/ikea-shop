@@ -425,7 +425,7 @@ export default function ConfirmOrder() {
 							<Input id="picture" type="file" onChange={handleUploadImage} />
 						</div> */}
 						<button type="button" onClick={() => setClickContact(true)}>
-							<a href="https://line.me/R/ti/p/@442avwvd?ts=05062354&oat_content=url" target="_bank" className="flex flex-row underline justify-end text-blue-500" >
+							<a href="https://line.me/ti/p/jLKF6aZaYc" target="_bank" className="flex flex-row underline justify-end text-blue-500" >
 								<Headset className="mr-2" /><span>{t("contactServiceCenter")}</span>
 							</a>
 						</button>
