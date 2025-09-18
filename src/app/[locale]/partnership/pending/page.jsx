@@ -8,7 +8,6 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
-import Footer from "@/components/Home/Footer";
 
 // Helpers
 import { getUserDataFromLCStorage } from "@/helpers";
