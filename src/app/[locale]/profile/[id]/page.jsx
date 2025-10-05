@@ -24,6 +24,7 @@ import {
 	CreditCard,
 	HandCoins,
 	DiamondPercent,
+	XCircle,
 } from "lucide-react";
 
 // UI
@@ -336,7 +337,7 @@ export default function Profile({ params }) {
 							<ClipboardList className="w-5 h-5 text-blue-600" />
 							คำสั่งของฉัน
 						</h2>
-						<div className="grid grid-cols-5 gap-2">
+						<div className="grid grid-cols-4 gap-2">
 							<Link href={`/pending-orders/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-blue-50 rounded-xl hover:bg-blue-100 hover:shadow-md">
 								<div className="relative flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-blue-500 to-blue-600">
 									<ClipboardList className="w-6 h-6 text-white" />
@@ -359,24 +360,18 @@ export default function Profile({ params }) {
 								</div>
 								<span className="text-xs font-medium text-center text-gray-700">รอการจัดส่ง</span>
 							</Link>
-							<div className="flex flex-col items-center p-3 bg-green-50 rounded-xl">
+							<Link href={`/completed-orders/${id}`} className="flex flex-col items-center p-3 bg-green-50 rounded-xl">
 								<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-green-500 to-green-600">
 									<Coins className="w-6 h-6 text-white" />
 								</div>
-								<span className="text-xs font-medium text-center text-gray-700">รับสินค้า</span>
-							</div>
-							<div className="flex flex-col items-center p-3 bg-purple-50 rounded-xl">
-								<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-purple-500 to-purple-600">
-									<Star className="w-6 h-6 text-white" />
+								<span className="text-xs font-medium text-center text-gray-700">จัดส่งสำเร็จ</span>
+							</Link>
+							<Link href={`/cancelled-orders/${id}`} className="flex flex-col items-center p-3 bg-red-50 rounded-xl">
+								<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-red-500 to-red-600">
+									<XCircle className="w-6 h-6 text-white" />
 								</div>
-								<span className="text-xs font-medium text-center text-gray-700">รอคำติชม</span>
-							</div>
-							<div className="flex flex-col items-center p-3 bg-gray-50 rounded-xl">
-								<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-gray-500 to-gray-600">
-									<HandCoins className="w-6 h-6 text-white" />
-								</div>
-								<span className="text-xs font-medium text-center text-gray-700">หลังการขาย</span>
-							</div>
+								<span className="text-xs font-medium text-center text-gray-700">ยกเลิก</span>
+							</Link>
 						</div>
 					</div>
 
