@@ -199,7 +199,9 @@ export default function ShippingOrders({ params }) {
 									<User className="w-4 h-4 text-gray-500" />
 									<span className="font-medium text-gray-900">{bill?.name}</span>
 									<Phone className="w-4 h-4 ml-auto text-gray-500" />
-									<span className="text-gray-700">{bill?.phoneNumber}</span>
+                                    <span className="text-gray-700">{bill?.phoneNumber}</span>
+                                    <MapPinned className="w-4 h-4 ml-auto text-gray-500" />
+                                                                        <span className="text-gray-700">{bill?.address}</span>
 								</div>
 							</div>
 						))}

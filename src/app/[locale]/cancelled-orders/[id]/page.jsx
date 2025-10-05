@@ -201,11 +201,13 @@ export default function CancelledOrders({ params }) {
 									<User className="w-4 h-4 text-gray-500" />
 									<span className="font-medium text-gray-900">{bill?.name}</span>
 									<Phone className="w-4 h-4 ml-auto text-gray-500" />
-									<span className="text-gray-700">{bill?.phoneNumber}</span>
+                                    <span className="text-gray-700">{bill?.phoneNumber}</span>
+                                    <MapPinned className="w-4 h-4 ml-auto text-gray-500" />
+                                                                        <span className="text-gray-700">{bill?.address}</span>
 								</div>
 
 								{/* Cancellation Info */}
-								<div className="flex items-center gap-2 p-2 mt-2 text-sm bg-red-50 rounded-lg">
+								<div className="flex items-center gap-2 p-2 mt-2 text-sm rounded-lg bg-red-50">
 									<AlertTriangle className="w-4 h-4 text-red-500" />
 									<span className="font-medium text-red-700">คำสั่งซื้อนี้ถูกยกเลิกแล้ว</span>
 								</div>
@@ -249,7 +251,7 @@ export default function CancelledOrders({ params }) {
 								{ordersInBill?.map((order) => (
 									<div
 										key={order?._id}
-										className="flex gap-4 p-4 transition-colors duration-200 border border-gray-100 bg-gray-50 rounded-xl opacity-75"
+										className="flex gap-4 p-4 transition-colors duration-200 border border-gray-100 opacity-75 bg-gray-50 rounded-xl"
 									>
 										<div className="relative w-24 h-24 overflow-hidden bg-white rounded-lg shadow-sm">
 											<Image
@@ -276,13 +278,13 @@ export default function CancelledOrders({ params }) {
 											</div>
 
 											<div className="grid grid-cols-2 gap-3 mt-2">
-												<div className="p-3 rounded-lg bg-gray-100">
+												<div className="p-3 bg-gray-100 rounded-lg">
 													<p className="mb-1 text-xs text-gray-500">ราคาทุน</p>
 													<p className="font-bold text-gray-600 line-through">
 														{formatToCurrencyTHB(order?.productId?.buyPrice)}
 													</p>
 												</div>
-												<div className="p-3 rounded-lg bg-gray-100">
+												<div className="p-3 bg-gray-100 rounded-lg">
 													<p className="mb-1 text-xs text-gray-500">ราคาขาย</p>
 													<p className="font-bold text-gray-600 line-through">
 														{formatToCurrencyTHB(order?.productId?.sellPrice)}

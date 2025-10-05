@@ -24,7 +24,10 @@ import {
 	CreditCard,
 	HandCoins,
 	DiamondPercent,
+	RectangleEllipsis,
 	XCircle,
+	TrendingDown,
+	BanknoteIcon,
 } from "lucide-react";
 
 // UI
@@ -304,7 +307,7 @@ export default function Profile({ params }) {
 										<Wallet className="w-5 h-5 text-white" />
 									</div>
 									<div>
-										<p className="text-xs font-medium text-gray-600">คูปอง</p>
+										<p className="text-xs font-medium text-gray-600">กระเป่าเงิน</p>
 										<p className="text-lg font-bold text-gray-800">{moneyUser?.money ? formatToCurrencyTHB(moneyUser?.money) : '฿0'}</p>
 									</div>
 								</div>
@@ -323,7 +326,7 @@ export default function Profile({ params }) {
 
 					{/* View All Link */}
 					<div className="flex justify-end px-4 mt-4 mb-2">
-						<Link href={`/pending-orders/${id}`} className="flex items-center gap-1 text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-800">
+						<Link href={`/order-tabs/${id}`} className="flex items-center gap-1 text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-800">
 							ดูทั้งหมด <ChevronRight className="w-3 h-3" />
 						</Link>
 					</div>
@@ -383,65 +386,31 @@ export default function Profile({ params }) {
 								<Sparkles className="w-5 h-5 text-purple-600" />
 								บริการหลัก
 							</h3>
-							<div className="grid grid-cols-4 gap-3">
-								<div className="flex flex-col items-center p-3 transition-all duration-200 bg-green-50 rounded-xl hover:bg-green-100 hover:shadow-md">
+							<div className="grid grid-cols-3 gap-3">
+								<Link href={`/select-product-to-store/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-green-50 rounded-xl hover:bg-green-100 hover:shadow-md">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-green-500 to-green-600">
-										<UserRoundCog className="w-6 h-6 text-white" />
+										<ArchiveRestore className="w-6 h-6 text-white" />
 									</div>
-									<span className="text-xs font-medium text-center text-gray-700">สมัครพันธมิตร</span>
-								</div>
-								<Link href={`/profile/top-up/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-orange-50 rounded-xl hover:bg-orange-100 hover:shadow-md">
+									<span className="text-xs font-medium text-center text-gray-700">{t("selectProductsToAddToYourStore")}</span>
+								</Link>
+								<Link href={`/my-store-products/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-orange-50 rounded-xl hover:bg-orange-100 hover:shadow-md">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-orange-500 to-orange-600">
 										<PiggyBank className="w-6 h-6 text-white" />
 									</div>
-									<span className="text-xs font-medium text-center text-gray-700">กระปุกเงิน</span>
+									<span className="text-xs font-medium text-center text-gray-700">ดูสินค้าในร้าน</span>
 								</Link>
-								<div className="flex flex-col items-center p-3 transition-all duration-200 bg-red-50 rounded-xl hover:bg-red-100 hover:shadow-md">
+								<Link href={`/profile/payment-password/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-red-50 rounded-xl hover:bg-red-100 hover:shadow-md">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-red-500 to-red-600">
-										<CreditCard className="w-6 h-6 text-white" />
+										<RectangleEllipsis className="w-6 h-6 text-white" />
 									</div>
-									<span className="text-xs font-medium text-center text-gray-700">รับที่อยู่</span>
-								</div>
-								<div className="flex flex-col items-center p-3 transition-all duration-200 bg-blue-50 rounded-xl hover:bg-blue-100 hover:shadow-md">
+									<span className="text-xs font-medium text-center text-gray-700">{t("paymentPassword")}</span>
+								</Link>
+								{/* <div className="flex flex-col items-center p-3 transition-all duration-200 bg-blue-50 rounded-xl hover:bg-blue-100 hover:shadow-md">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-blue-500 to-blue-600">
 										<DiamondPercent className="w-6 h-6 text-white" />
 									</div>
 									<span className="text-xs font-medium text-center text-gray-700">การประเมินผล</span>
-								</div>
-							</div>
-						</div>
-
-						{/* Second Row - Additional Services */}
-						<div>
-							<h3 className="flex items-center gap-2 mb-3 text-lg font-bold text-gray-800">
-								<Phone className="w-5 h-5 text-indigo-600" />
-								บริการเพิ่มเติม
-							</h3>
-							<div className="grid grid-cols-4 gap-3">
-								<div className="flex flex-col items-center p-3 transition-all duration-200 bg-red-50 rounded-xl hover:bg-red-100 hover:shadow-md">
-									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-red-500 to-red-600">
-										<Phone className="w-6 h-6 text-white" />
-									</div>
-									<span className="text-xs font-medium text-center text-gray-700">บริการ</span>
-								</div>
-								<Link href={`/claim-history/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-pink-50 rounded-xl hover:bg-pink-100 hover:shadow-md">
-									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-pink-500 to-pink-600">
-										<HandCoins className="w-6 h-6 text-white" />
-									</div>
-									<span className="text-xs font-medium text-center text-gray-700">ทำเครื่องหมาย</span>
-								</Link>
-								<div className="flex flex-col items-center p-3 transition-all duration-200 bg-red-50 rounded-xl hover:bg-red-100 hover:shadow-md">
-									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-red-600 to-red-700">
-										<LogOut className="w-6 h-6 text-white" />
-									</div>
-									<span className="text-xs font-medium text-center text-gray-700">ข้อร้องเรียน</span>
-								</div>
-								<a href="https://line.me/ti/p/jLKF6aZaYc" target="_blank" className="flex flex-col items-center p-3 transition-all duration-200 bg-blue-50 rounded-xl hover:bg-blue-100 hover:shadow-md">
-									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-blue-500 to-blue-600">
-										<Phone className="w-6 h-6 text-white" />
-									</div>
-									<span className="text-xs font-medium text-center text-gray-700">ช่วยฉัน</span>
-								</a>
+								</div> */}
 							</div>
 						</div>
 
@@ -452,26 +421,36 @@ export default function Profile({ params }) {
 								การตั้งค่า
 							</h3>
 							<div className="grid grid-cols-4 gap-3">
-								<div className="flex flex-col items-center p-3 transition-all duration-200 bg-blue-50 rounded-xl hover:bg-blue-100 hover:shadow-md">
+								<Link href={`/profile/edit/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-blue-50 rounded-xl hover:bg-blue-100 hover:shadow-md">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-blue-600 to-blue-700">
-										<Award className="w-6 h-6 text-white" />
-									</div>
-									<span className="text-xs font-medium text-center text-gray-700">เกี่ยวกับเรา</span>
-								</div>
-								<Link href={`/profile/edit/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-gray-50 rounded-xl hover:bg-gray-100 hover:shadow-md">
-									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-gray-600 to-gray-700">
 										<UserRoundCog className="w-6 h-6 text-white" />
 									</div>
-									<span className="text-xs font-medium text-center text-gray-700">ตั้งค่า</span>
+									<span className="text-xs font-medium text-center text-gray-700">แก้ไขโปรไฟล์</span>
 								</Link>
-								<div className="flex flex-col items-center p-3"></div>
-								<div className="flex flex-col items-center p-3"></div>
+								<Link href={`/profile/bank/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-green-50 rounded-xl hover:bg-green-100 hover:shadow-md">
+									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-green-600 to-green-700">
+										<CreditCard className="w-6 h-6 text-white" />
+									</div>
+									<span className="text-xs font-medium text-center text-gray-700">แก้ไขข้อมูลธนาคาร</span>
+								</Link>
+								<Link href={`/withdraw-profit/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-orange-50 rounded-xl hover:bg-orange-100 hover:shadow-md">
+									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-orange-600 to-orange-700">
+										<TrendingDown className="w-6 h-6 text-white" />
+									</div>
+									<span className="text-xs font-medium text-center text-gray-700">ถอนกำไร</span>
+								</Link>
+								<Link href={`/profile/top-up/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-purple-50 rounded-xl hover:bg-purple-100 hover:shadow-md">
+									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-purple-600 to-purple-700">
+										<BanknoteIcon className="w-6 h-6 text-white" />
+									</div>
+									<span className="text-xs font-medium text-center text-gray-700">ถอน</span>
+								</Link>
 							</div>
 						</div>
 					</div>
 
 					{/* Additional Menu for Members */}
-					{userDetail?.role === "MEMBER" && userDetail?.memberStatus === "APPROVED" && (
+					{/* {userDetail?.role === "MEMBER" && userDetail?.memberStatus === "APPROVED" && (
 						<div className={`mt-6 ${userVipLevel > 0 ? currentVip.bgPattern : 'bg-gray-50'} rounded-xl p-4 border ${userVipLevel > 0 ? currentVip.borderColor : 'border-gray-200'} shadow-lg`}>
 							<h3 className="flex items-center gap-2 mb-4 text-lg font-bold text-gray-800">
 								<Crown className={`w-5 h-5 ${userVipLevel > 0 ? 'text-yellow-600' : 'text-gray-600'}`} />
@@ -504,7 +483,7 @@ export default function Profile({ params }) {
 								</Link>
 							</div>
 						</div>
-					)}
+					)} */}
 
 					{/* Logout Button */}
 					<Link href="/logout" className="flex items-center justify-center gap-3 p-4 mt-6 transition-all duration-200 border border-red-200 shadow-lg bg-gradient-to-r from-red-50 to-pink-50 rounded-xl hover:from-red-100 hover:to-pink-100 hover:shadow-xl">
