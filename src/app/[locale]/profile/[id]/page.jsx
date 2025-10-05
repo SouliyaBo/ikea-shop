@@ -21,29 +21,32 @@ import {
 	LogOut,
 	Wallet,
 	ArchiveRestore,
+	CreditCard,
+	HandCoins,
+	DiamondPercent,
 } from "lucide-react";
+
 // UI
 import Footer from "@/components/Home/Footer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Badge from "@/components/ui/badge";
 import AuthGuard from "@/components/AuthGuard";
+
 // Constants
 import { get } from "@/helpers";
 import numberFormat from "@/helpers/numberFormat";
-import { HandCoins } from "lucide-react";
-import { CreditCard } from "lucide-react";
 import { gets } from "@/helpers/index";
 import { formatToCurrencyTHB } from "@/helpers/currencyDisplay";
-import { DiamondPercent } from "lucide-react";
 
 const VIP_TIERS = {
 	0: {
-		name: "",
+		name: "Member",
 		color: "from-slate-400 to-slate-600",
 		textColor: "text-slate-100",
 		icon: Star,
-		benefits: ["5% Cashback", "Priority Support"],
+		benefits: ["Basic Support"],
 		bgPattern: "bg-gradient-to-br from-slate-50 to-slate-100",
+		borderColor: "border-slate-300",
 	},
 	1: {
 		name: "Silver Elite",
@@ -52,6 +55,7 @@ const VIP_TIERS = {
 		icon: Star,
 		benefits: ["5% Cashback", "Priority Support"],
 		bgPattern: "bg-gradient-to-br from-slate-50 to-slate-100",
+		borderColor: "border-slate-400",
 	},
 	2: {
 		name: "Gold Premium",
@@ -60,6 +64,7 @@ const VIP_TIERS = {
 		icon: Award,
 		benefits: ["10% Cashback", "VIP Support", "Exclusive Deals"],
 		bgPattern: "bg-gradient-to-br from-yellow-50 to-amber-100",
+		borderColor: "border-yellow-400",
 	},
 	3: {
 		name: "Platinum Royal",
@@ -68,6 +73,7 @@ const VIP_TIERS = {
 		icon: Crown,
 		benefits: ["15% Cashback", "Personal Manager", "Early Access"],
 		bgPattern: "bg-gradient-to-br from-purple-50 to-violet-100",
+		borderColor: "border-purple-400",
 	},
 	4: {
 		name: "Diamond Prestige",
@@ -76,6 +82,7 @@ const VIP_TIERS = {
 		icon: Diamond,
 		benefits: ["20% Cashback", "Concierge Service", "Luxury Perks"],
 		bgPattern: "bg-gradient-to-br from-blue-50 to-cyan-100",
+		borderColor: "border-blue-400",
 	},
 	5: {
 		name: "Black Infinity",
@@ -84,6 +91,7 @@ const VIP_TIERS = {
 		icon: Sparkles,
 		benefits: ["25% Cashback", "White Glove Service", "Unlimited Access"],
 		bgPattern: "bg-gradient-to-br from-gray-900 to-black",
+		borderColor: "border-gray-800",
 	},
 }
 
@@ -97,121 +105,13 @@ export default function Profile({ params }) {
 	const [userDetail, setUserDetail] = useState(null);
 	const [moneyUser, setMoneyUser] = useState(0);
 	const [moneyProfit, setMoneyProfit] = useState(null);
-
-	const profileMenu = userDetail?.role === "MEMBER" && userDetail?.memberStatus === "APPROVED" ?
-		[
-			{
-				title: t("editProfile"),
-				icon: UserRoundCog,
-				link: "/profile/edit/",
-				role: "APPROVED"
-			},
-			{
-				title: t("paymentPassword"),
-				icon: UserRoundCog,
-				link: "/profile/payment-password/",
-				role: "APPROVED"
-			},
-			{
-				title: t("editBankInfo"),
-				icon: CreditCard,
-				link: "/profile/bank/",
-				role: "APPROVED"
-			},
-			{
-				title: t("topUp"),
-				icon: Coins,
-				link: "/profile/top-up/",
-				role: "APPROVED"
-			},
-			{
-				title: t("selectProductsToAddToYourStore"),
-				icon: ArchiveRestore,
-				link: "/select-product-to-store/",
-				role: "APPROVED"
-			},
-			{
-				title: t("buyList"),
-				icon: ClipboardList,
-				link: "/order-history/",
-				role: "APPROVED",
-				badge: true
-			},
-			// {
-			// 	title:
-			// 		userDetail?.role === "MEMBER" ? "อัปเกต Partner" : "สมัครเป็น Partner",
-			// 	icon: HeartHandshake,
-			// 	link:
-			// 		userDetail?.role === "MEMBER"
-			// 			? `/partnership/request?userId=${id}`
-			// 			: "/partnership/request",
-			// },
-			// {
-			// 	title: t("incomeHistory"),
-			// 	icon: Coins,
-			// 	link: "/money-user-history/",
-			// },
-			{
-				title: t("withdrawProfit"),
-				icon: PiggyBank,
-				link: "/withdraw-profit/",
-				role: "APPROVED"
-			},
-			{
-				title: t("claimHistory"),
-				icon: HandCoins,
-				link: "/claim-history/",
-				role: "APPROVED"
-			},
-			// {
-			// 	title: t("network"),
-			// 	icon: Network,-
-			// 	link: "/user-network/",
-			// },
-		] : [
-			{
-				title: t("editProfile"),
-				icon: UserRoundCog,
-				link: "/profile/edit/",
-				role: "APPROVED"
-			},
-			{
-				title: t("paymentPassword"),
-				icon: UserRoundCog,
-				link: "/profile/payment-password/",
-				role: "APPROVED"
-			},
-			{
-				title: t("editBankInfo"),
-				icon: CreditCard,
-				link: "/profile/bank/",
-				role: "APPROVED"
-			},
-			{
-				title: t("topUp"),
-				icon: Coins,
-				link: "/profile/top-up/",
-				role: "APPROVED"
-			},
-			{
-				title: t("buyList"),
-				icon: ClipboardList,
-				link: "/order-history/",
-				role: "APPROVED",
-				badge: true
-			},
-			{
-				title: t("claimHistory"),
-				icon: HandCoins,
-				link: "/claim-history/",
-				role: "APPROVED"
-			},
-		];
-	// Add this with your other state variables
 	const [orderCount, setOrderCount] = useState(0);
-	const [userVipLevel, setUserVipLevel] = useState(0)
-	const currentVip = VIP_TIERS[userVipLevel]
-	const VipIcon = currentVip.icon
+	const [shippingCount, setShippingCount] = useState(0);
+	const [userVipLevel, setUserVipLevel] = useState(0);
+
+	const currentVip = VIP_TIERS[userVipLevel] || VIP_TIERS[0];
+	const VipIcon = currentVip.icon;
+
 	useEffect(() => {
 		const USER_DATA =
 			typeof window !== "undefined"
@@ -226,13 +126,12 @@ export default function Profile({ params }) {
 	useEffect(() => {
 		if (userToken && id) {
 			get(
-				// `${USER}/${id}`,
 				`${process.env.NEXT_PUBLIC_API_LINK}/v1/api/user/${id}`,
 				userToken,
 				() => { },
 				(res) => {
 					setUserDetail(res.data);
-					setUserVipLevel(parseInt(res.data?.vipLevel))
+					setUserVipLevel(parseInt(res.data?.vipLevel) || 0);
 					const newUserData = {
 						data: res.data,
 						accessToken: userToken,
@@ -252,11 +151,10 @@ export default function Profile({ params }) {
 
 	useEffect(() => {
 		if (userToken) {
+			// Get REQUEST status orders count
 			gets(
-				// EXPORT_PRODUCT,
 				`${process.env.NEXT_PUBLIC_API_LINK}/v1/api/bill`,
 				{
-					// customerId: fakeId,
 					customerId: id,
 					status: "REQUEST"
 				},
@@ -269,16 +167,32 @@ export default function Profile({ params }) {
 					console.log(err);
 				},
 			);
+
+			// Get SHIPPING status orders count
+			gets(
+				`${process.env.NEXT_PUBLIC_API_LINK}/v1/api/bill`,
+				{
+					customerId: id,
+					status: "SHIPPING"
+				},
+				userToken,
+				() => { },
+				(data) => {
+					setShippingCount(data?.data?.total || 0);
+				},
+				(err) => {
+					console.log(err);
+				},
+			);
 		}
 	}, [userToken, id]);
+
 	const getMoneyUser = () => {
 		get(
-			// `${MONEY_USER}?user=${id}`,
 			`${process.env.NEXT_PUBLIC_API_LINK}/v1/api/money-user?user=${id}`,
 			userToken,
 			() => { },
 			(res) => {
-				// Store the original first item along with calculated totals
 				setMoneyUser(res.data?.data[0]);
 			},
 			(err) => {
@@ -305,128 +219,305 @@ export default function Profile({ params }) {
 	};
 
 	return (
-		<div className="w-full h-dvh flex flex-col">
-			<section className="flex-1 relative overflow-y-auto overflow-x-hidden bg-gradient-to-t from-gray-100 to-white scroll-smooth">
-				{/* Header Section with Profile */}
+		<div className="flex flex-col w-full h-dvh">
+			<section className="relative flex-1 overflow-x-hidden overflow-y-auto bg-white scroll-smooth">
+				{/* VIP Header Section */}
 				<div className="relative">
-					<div className={`bg-gradient-to-r ${currentVip.color} px-6 pt-12 pb-20 sm:pb-24 md:pb-28`}>
-						<div className="absolute top-4 right-4">
-							<a href="https://line.me/ti/p/jLKF6aZaYc" target="_bank" className={`${currentVip.textColor} hover:bg-white/20 flex`}>
-								<Phone className="w-4 h-4 mr-2" /><span>Contact Support</span>
+					{/* VIP Background Header */}
+					<div className={`${userVipLevel > 0 ? `bg-gradient-to-r ${currentVip.color}` : 'bg-gradient-to-r from-gray-100 to-gray-200'} px-4 pt-8 pb-6 relative overflow-hidden`}>
+						{/* Premium Pattern Overlay */}
+						{userVipLevel > 0 && (
+							<div className="absolute inset-0 opacity-10">
+								<div className="absolute top-0 left-0 w-32 h-32 -translate-x-16 -translate-y-16 bg-white rounded-full"></div>
+								<div className="absolute top-0 right-0 w-24 h-24 translate-x-12 -translate-y-12 bg-white rounded-full"></div>
+								<div className="absolute bottom-0 w-40 h-40 -translate-x-20 translate-y-20 bg-white rounded-full left-1/2"></div>
+							</div>
+						)}
+
+						{/* Contact Support */}
+						<div className="absolute z-10 top-4 right-4">
+							<a href="https://line.me/ti/p/jLKF6aZaYc" target="_blank"
+								className={`${userVipLevel > 0 ? currentVip.textColor : 'text-gray-700'} hover:bg-white/20 flex items-center text-sm rounded-full px-3 py-1 backdrop-blur-sm transition-all duration-300`}>
+								<Phone className="w-3 h-3 mr-1" />
+								<span className="hidden sm:inline">Support</span>
 							</a>
 						</div>
 
 						{/* VIP Status Badge */}
-						{userVipLevel > 0 &&
-							<div className="flex justify-center mb-6">
-								<Badge variant="destructive" className={`bg-white/20 ${currentVip.textColor} px-4 py-2 text-sm font-semibold backdrop-blur-sm `} >
-									<VipIcon className="w-4 h-4 mr-2" />
-									VIP Level {userVipLevel} - {currentVip.name}
-								</Badge>
+						{userVipLevel > 0 && (
+							<div className="relative z-10 flex justify-center mb-4">
+								<div className={`bg-white/20 ${currentVip.textColor} px-6 py-2 rounded-full backdrop-blur-md border border-white/30 shadow-xl`}>
+									<div className="flex items-center gap-2">
+										<VipIcon className="w-5 h-5" />
+										<span className="text-sm font-bold">VIP {userVipLevel}</span>
+										<span className="text-xs font-medium opacity-90">- {currentVip.name}</span>
+									</div>
+								</div>
 							</div>
-						}
+						)}
 
-						{/* Profile Avatar */}
-						<div className="flex justify-center mb-4">
+						{/* Profile Section */}
+						<div className="relative z-10 flex items-center gap-4">
 							<div className="relative">
-								<Avatar className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 border-4 border-white/30 shadow-2xl">
+								<Avatar className={`w-20 h-20 ${userVipLevel > 0 ? `border-4 ${currentVip.borderColor} shadow-2xl` : 'border-2 border-gray-300'} transition-all duration-300`}>
 									<AvatarImage src={process.env.NEXT_PUBLIC_MEDIUM_RESIZE + userDetail?.image || "/placeholder.svg"} alt="Profile" />
-									<AvatarFallback className="text-xl sm:text-2xl font-bold bg-white/20">{userDetail?.firstName.charAt(0)}</AvatarFallback>
+									<AvatarFallback className={`text-xl font-bold ${userVipLevel > 0 ? 'bg-white/20 text-white' : 'bg-gray-100'}`}>
+										{userDetail?.firstName?.charAt(0)}
+									</AvatarFallback>
 								</Avatar>
-								{userVipLevel > 0 && <div
-									className={`absolute -bottom-2 -right-2 w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r ${currentVip.color} rounded-full flex items-center justify-center border-3 border-white shadow-lg`}
-								>
-									<VipIcon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-								</div>}
+								{userVipLevel > 0 && (
+									<div className={`absolute -bottom-2 -right-2 w-8 h-8 bg-gradient-to-r ${currentVip.color} rounded-full flex items-center justify-center border-3 border-white shadow-xl animate-pulse`}>
+										<VipIcon className="w-4 h-4 text-white" />
+									</div>
+								)}
+							</div>
+							<div className="flex-1">
+								<h1 className={`text-xl font-bold ${userVipLevel > 0 ? currentVip.textColor : 'text-gray-800'} mb-1`}>
+									{userDetail?.role === "MEMBER" && userDetail?.memberStatus === "APPROVED"
+										? userDetail?.memberShopName
+										: `${userDetail?.firstName} ${userDetail?.lastName}`}
+								</h1>
+								<p className={`text-sm ${userVipLevel > 0 ? currentVip.textColor + ' opacity-90' : 'text-gray-500'} mb-2`}>
+									Member ID: {userDetail?.vipCode}
+								</p>
+								{/* VIP Benefits Preview */}
+								{/* {userVipLevel > 0 && (
+									<div className="flex flex-wrap gap-1">
+										{currentVip.benefits.slice(0, 2).map((benefit, index) => (
+											<span key={index} className="px-2 py-1 text-xs text-white rounded-full bg-white/20 backdrop-blur-sm">
+												{benefit}
+											</span>
+										))}
+									</div>
+								)} */}
 							</div>
 						</div>
+					</div>
 
-						{/* User Info */}
-						<div className="text-center">
-							<h1 className={`text-xl sm:text-2xl font-bold ${currentVip.textColor} mb-1`}>
-								{userDetail?.role === "MEMBER" && userDetail?.memberStatus === "APPROVED"
-									? userDetail?.memberShopName
-									: `${userDetail?.firstName} ${userDetail?.lastName}`}
-							</h1>
-							<p className={`${currentVip.textColor} opacity-90 text-sm sm:text-base`}>Member ID: {userDetail?.vipCode}</p>
+					{/* Balance Cards with VIP Styling */}
+					{userDetail?.role === "MEMBER" && userDetail?.memberStatus === "APPROVED" && (
+						<div className="relative z-20 px-4 -mt-4">
+							<div className="flex gap-3">
+								<div className={`flex-1 ${userVipLevel > 0 ? currentVip.bgPattern : 'bg-yellow-50'} rounded-xl p-4 flex items-center gap-3 shadow-lg border ${userVipLevel > 0 ? currentVip.borderColor : 'border-yellow-200'} backdrop-blur-sm`}>
+									<div className={`w-10 h-10 ${userVipLevel > 0 ? `bg-gradient-to-r ${currentVip.color}` : 'bg-yellow-500'} rounded-full flex items-center justify-center shadow-lg`}>
+										<Wallet className="w-5 h-5 text-white" />
+									</div>
+									<div>
+										<p className="text-xs font-medium text-gray-600">คูปอง</p>
+										<p className="text-lg font-bold text-gray-800">{moneyUser?.money ? formatToCurrencyTHB(moneyUser?.money) : '฿0'}</p>
+									</div>
+								</div>
+								<div className={`flex-1 ${userVipLevel > 0 ? currentVip.bgPattern : 'bg-orange-50'} rounded-xl p-4 flex items-center gap-3 shadow-lg border ${userVipLevel > 0 ? currentVip.borderColor : 'border-orange-200'} backdrop-blur-sm`}>
+									<div className={`w-10 h-10 ${userVipLevel > 0 ? `bg-gradient-to-r ${currentVip.color}` : 'bg-orange-500'} rounded-full flex items-center justify-center shadow-lg`}>
+										<PiggyBank className="w-5 h-5 text-white" />
+									</div>
+									<div>
+										<p className="text-xs font-medium text-gray-600">กำไร</p>
+										<p className="text-lg font-bold text-gray-800">{moneyProfit ? formatToCurrencyTHB(moneyProfit?.money) : '฿0'}</p>
+									</div>
+								</div>
+							</div>
 						</div>
+					)}
+
+					{/* View All Link */}
+					<div className="flex justify-end px-4 mt-4 mb-2">
+						<Link href={`/pending-orders/${id}`} className="flex items-center gap-1 text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-800">
+							ดูทั้งหมด <ChevronRight className="w-3 h-3" />
+						</Link>
 					</div>
 				</div>
 
-				{/* Overlapping Content Section */}
-				<div className="px-4 -mt-12 sm:-mt-16 md:-mt-20 relative z-10 pb-20 min-h-0 flex-1">
-					{userDetail?.role === "MEMBER" && userDetail?.memberStatus === "APPROVED" ? (
-						<div className="w-full p-3 sm:p-4 mb-4 space-y-3 sm:space-y-4 text-center rounded-lg shadow-lg border bg-white border-blue-200">
-							<p className="text-lg font-bold text-primary">{t("yourBalance")}</p>
-							<p className="gap-2 text-xl sm:text-2xl font-bold text-primary flex justify-center items-center">
-								<Wallet className="text-primary" />
-								{moneyUser?.money ? formatToCurrencyTHB(moneyUser?.money) : 0}
-							</p>
-							<div className="flex items-center justify-around w-full">
-								<p className="gap-2 text-xl sm:text-2xl font-bold text-blue-700 flex justify-center items-center">
-									<PiggyBank className="text-blue-700" />
-									{moneyProfit ? formatToCurrencyTHB(moneyProfit?.money) : 0}
-								</p>
+				{/* Main Content Section */}
+				<div className="px-4 pb-20 bg-white">
+					{/* Order Status Section */}
+					<div className="mb-6">
+						<h2 className="flex items-center gap-2 mb-4 text-lg font-bold text-gray-800">
+							<ClipboardList className="w-5 h-5 text-blue-600" />
+							คำสั่งของฉัน
+						</h2>
+						<div className="grid grid-cols-5 gap-2">
+							<Link href={`/pending-orders/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-blue-50 rounded-xl hover:bg-blue-100 hover:shadow-md">
+								<div className="relative flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-blue-500 to-blue-600">
+									<ClipboardList className="w-6 h-6 text-white" />
+									{orderCount > 0 && (
+										<div className="absolute flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full shadow-lg -top-2 -right-2 animate-pulse">
+											{orderCount}
+										</div>
+									)}
+								</div>
+								<span className="text-xs font-medium text-center text-gray-700">คำสั่งซื้อ</span>
+							</Link>
+							<Link href={`/shipping-orders/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-orange-50 rounded-xl hover:bg-orange-100 hover:shadow-md">
+								<div className="relative flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-orange-500 to-orange-600">
+									<ArchiveRestore className="w-6 h-6 text-white" />
+									{shippingCount > 0 && (
+										<div className="absolute flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full shadow-lg -top-2 -right-2 animate-pulse">
+											{shippingCount}
+										</div>
+									)}
+								</div>
+								<span className="text-xs font-medium text-center text-gray-700">รอการจัดส่ง</span>
+							</Link>
+							<div className="flex flex-col items-center p-3 bg-green-50 rounded-xl">
+								<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-green-500 to-green-600">
+									<Coins className="w-6 h-6 text-white" />
+								</div>
+								<span className="text-xs font-medium text-center text-gray-700">รับสินค้า</span>
+							</div>
+							<div className="flex flex-col items-center p-3 bg-purple-50 rounded-xl">
+								<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-purple-500 to-purple-600">
+									<Star className="w-6 h-6 text-white" />
+								</div>
+								<span className="text-xs font-medium text-center text-gray-700">รอคำติชม</span>
+							</div>
+							<div className="flex flex-col items-center p-3 bg-gray-50 rounded-xl">
+								<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-gray-500 to-gray-600">
+									<HandCoins className="w-6 h-6 text-white" />
+								</div>
+								<span className="text-xs font-medium text-center text-gray-700">หลังการขาย</span>
 							</div>
 						</div>
-					) : null}
-
-					<div className="flex flex-col w-full gap-0 px-0 bg-white rounded-lg shadow-md">
-						{profileMenu.map((item) => (
-							<Link
-								key={item?.title}
-								href={
-									item?.link.startsWith("/partnership")
-										? item?.link
-										: item?.link + id
-								}
-								className={`${(userDetail?.role === "MEMBER" && userDetail?.memberStatus !== "APPROVED" &&
-									item.link === "/money-user-history/") ||
-									(!userDetail?.role === "MEMBER" &&
-										item.link === "/claim-history/") ||
-									(
-										!userDetail?.role === "MEMBER" &&
-										item.link === "/user-network/"
-									)
-									? "hidden"
-									: "flex"
-									} items-center justify-between w-full py-4 px-4 border-b border-gray-200 last:border-b-0`}
-							>
-								<div className="gap-2 flex items-center">
-									{item?.icon ? (
-										<item.icon size={24} className="text-primary" />
-									) : null}
-									{item?.badge ?
-										<div className="relative">
-											<div className="p-2 rounded-lg">
-												<span className="text-sm sm:text-base">{item?.title}</span>
-											</div>
-											<Badge
-												variant="error"
-												size="sm"
-												className="absolute -top-2 -right-2 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs"
-											>
-												{item.title === t("buyList") ? orderCount : 0}
-											</Badge>
-										</div> :
-										<span className="text-sm sm:text-base">{item?.title}</span>
-									}
-								</div>
-								<ChevronRight className="text-primary" size={24} />
-							</Link>
-						))}
-
-						<Link
-							href={"/logout"}
-							className="flex items-center justify-between w-full py-4 px-4"
-						>
-							<div className="gap-2 flex items-center">
-								<LogOut size={24} className="text-primary" />
-								<span className="text-sm sm:text-base">{t("logout")}</span>
-							</div>
-							<ChevronRight className="text-primary" size={24} />
-						</Link>
 					</div>
+
+					{/* Services Grid Section */}
+					<div className="space-y-6">
+						{/* First Row - Main Services */}
+						<div>
+							<h3 className="flex items-center gap-2 mb-3 text-lg font-bold text-gray-800">
+								<Sparkles className="w-5 h-5 text-purple-600" />
+								บริการหลัก
+							</h3>
+							<div className="grid grid-cols-4 gap-3">
+								<div className="flex flex-col items-center p-3 transition-all duration-200 bg-green-50 rounded-xl hover:bg-green-100 hover:shadow-md">
+									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-green-500 to-green-600">
+										<UserRoundCog className="w-6 h-6 text-white" />
+									</div>
+									<span className="text-xs font-medium text-center text-gray-700">สมัครพันธมิตร</span>
+								</div>
+								<Link href={`/profile/top-up/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-orange-50 rounded-xl hover:bg-orange-100 hover:shadow-md">
+									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-orange-500 to-orange-600">
+										<PiggyBank className="w-6 h-6 text-white" />
+									</div>
+									<span className="text-xs font-medium text-center text-gray-700">กระปุกเงิน</span>
+								</Link>
+								<div className="flex flex-col items-center p-3 transition-all duration-200 bg-red-50 rounded-xl hover:bg-red-100 hover:shadow-md">
+									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-red-500 to-red-600">
+										<CreditCard className="w-6 h-6 text-white" />
+									</div>
+									<span className="text-xs font-medium text-center text-gray-700">รับที่อยู่</span>
+								</div>
+								<div className="flex flex-col items-center p-3 transition-all duration-200 bg-blue-50 rounded-xl hover:bg-blue-100 hover:shadow-md">
+									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-blue-500 to-blue-600">
+										<DiamondPercent className="w-6 h-6 text-white" />
+									</div>
+									<span className="text-xs font-medium text-center text-gray-700">การประเมินผล</span>
+								</div>
+							</div>
+						</div>
+
+						{/* Second Row - Additional Services */}
+						<div>
+							<h3 className="flex items-center gap-2 mb-3 text-lg font-bold text-gray-800">
+								<Phone className="w-5 h-5 text-indigo-600" />
+								บริการเพิ่มเติม
+							</h3>
+							<div className="grid grid-cols-4 gap-3">
+								<div className="flex flex-col items-center p-3 transition-all duration-200 bg-red-50 rounded-xl hover:bg-red-100 hover:shadow-md">
+									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-red-500 to-red-600">
+										<Phone className="w-6 h-6 text-white" />
+									</div>
+									<span className="text-xs font-medium text-center text-gray-700">บริการ</span>
+								</div>
+								<Link href={`/claim-history/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-pink-50 rounded-xl hover:bg-pink-100 hover:shadow-md">
+									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-pink-500 to-pink-600">
+										<HandCoins className="w-6 h-6 text-white" />
+									</div>
+									<span className="text-xs font-medium text-center text-gray-700">ทำเครื่องหมาย</span>
+								</Link>
+								<div className="flex flex-col items-center p-3 transition-all duration-200 bg-red-50 rounded-xl hover:bg-red-100 hover:shadow-md">
+									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-red-600 to-red-700">
+										<LogOut className="w-6 h-6 text-white" />
+									</div>
+									<span className="text-xs font-medium text-center text-gray-700">ข้อร้องเรียน</span>
+								</div>
+								<a href="https://line.me/ti/p/jLKF6aZaYc" target="_blank" className="flex flex-col items-center p-3 transition-all duration-200 bg-blue-50 rounded-xl hover:bg-blue-100 hover:shadow-md">
+									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-blue-500 to-blue-600">
+										<Phone className="w-6 h-6 text-white" />
+									</div>
+									<span className="text-xs font-medium text-center text-gray-700">ช่วยฉัน</span>
+								</a>
+							</div>
+						</div>
+
+						{/* Third Row - Settings */}
+						<div>
+							<h3 className="flex items-center gap-2 mb-3 text-lg font-bold text-gray-800">
+								<UserRoundCog className="w-5 h-5 text-gray-600" />
+								การตั้งค่า
+							</h3>
+							<div className="grid grid-cols-4 gap-3">
+								<div className="flex flex-col items-center p-3 transition-all duration-200 bg-blue-50 rounded-xl hover:bg-blue-100 hover:shadow-md">
+									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-blue-600 to-blue-700">
+										<Award className="w-6 h-6 text-white" />
+									</div>
+									<span className="text-xs font-medium text-center text-gray-700">เกี่ยวกับเรา</span>
+								</div>
+								<Link href={`/profile/edit/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-gray-50 rounded-xl hover:bg-gray-100 hover:shadow-md">
+									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-gray-600 to-gray-700">
+										<UserRoundCog className="w-6 h-6 text-white" />
+									</div>
+									<span className="text-xs font-medium text-center text-gray-700">ตั้งค่า</span>
+								</Link>
+								<div className="flex flex-col items-center p-3"></div>
+								<div className="flex flex-col items-center p-3"></div>
+							</div>
+						</div>
+					</div>
+
+					{/* Additional Menu for Members */}
+					{userDetail?.role === "MEMBER" && userDetail?.memberStatus === "APPROVED" && (
+						<div className={`mt-6 ${userVipLevel > 0 ? currentVip.bgPattern : 'bg-gray-50'} rounded-xl p-4 border ${userVipLevel > 0 ? currentVip.borderColor : 'border-gray-200'} shadow-lg`}>
+							<h3 className="flex items-center gap-2 mb-4 text-lg font-bold text-gray-800">
+								<Crown className={`w-5 h-5 ${userVipLevel > 0 ? 'text-yellow-600' : 'text-gray-600'}`} />
+								เมนูสมาชิก {userVipLevel > 0 && <span className="text-sm font-medium text-yellow-600">VIP</span>}
+							</h3>
+							<div className="grid grid-cols-2 gap-3">
+								<Link href={`/profile/bank/${id}`} className="flex items-center gap-3 p-4 transition-all duration-200 bg-white shadow-md rounded-xl hover:bg-gray-50 hover:shadow-lg">
+									<div className={`w-10 h-10 ${userVipLevel > 0 ? `bg-gradient-to-r ${currentVip.color}` : 'bg-blue-500'} rounded-lg flex items-center justify-center shadow-lg`}>
+										<CreditCard className="w-5 h-5 text-white" />
+									</div>
+									<span className="text-sm font-medium text-gray-700">{t("editBankInfo")}</span>
+								</Link>
+								<Link href={`/profile/payment-password/${id}`} className="flex items-center gap-3 p-4 transition-all duration-200 bg-white shadow-md rounded-xl hover:bg-gray-50 hover:shadow-lg">
+									<div className={`w-10 h-10 ${userVipLevel > 0 ? `bg-gradient-to-r ${currentVip.color}` : 'bg-green-500'} rounded-lg flex items-center justify-center shadow-lg`}>
+										<Wallet className="w-5 h-5 text-white" />
+									</div>
+									<span className="text-sm font-medium text-gray-700">{t("paymentPassword")}</span>
+								</Link>
+								<Link href={`/select-product-to-store/${id}`} className="flex items-center gap-3 p-4 transition-all duration-200 bg-white shadow-md rounded-xl hover:bg-gray-50 hover:shadow-lg">
+									<div className={`w-10 h-10 ${userVipLevel > 0 ? `bg-gradient-to-r ${currentVip.color}` : 'bg-purple-500'} rounded-lg flex items-center justify-center shadow-lg`}>
+										<ArchiveRestore className="w-5 h-5 text-white" />
+									</div>
+									<span className="text-sm font-medium text-gray-700">{t("selectProductsToAddToYourStore")}</span>
+								</Link>
+								<Link href={`/withdraw-profit/${id}`} className="flex items-center gap-3 p-4 transition-all duration-200 bg-white shadow-md rounded-xl hover:bg-gray-50 hover:shadow-lg">
+									<div className={`w-10 h-10 ${userVipLevel > 0 ? `bg-gradient-to-r ${currentVip.color}` : 'bg-orange-500'} rounded-lg flex items-center justify-center shadow-lg`}>
+										<PiggyBank className="w-5 h-5 text-white" />
+									</div>
+									<span className="text-sm font-medium text-gray-700">{t("withdrawProfit")}</span>
+								</Link>
+							</div>
+						</div>
+					)}
+
+					{/* Logout Button */}
+					<Link href="/logout" className="flex items-center justify-center gap-3 p-4 mt-6 transition-all duration-200 border border-red-200 shadow-lg bg-gradient-to-r from-red-50 to-pink-50 rounded-xl hover:from-red-100 hover:to-pink-100 hover:shadow-xl">
+						<div className="flex items-center justify-center w-8 h-8 rounded-full shadow-lg bg-gradient-to-r from-red-500 to-red-600">
+							<LogOut className="w-4 h-4 text-white" />
+						</div>
+						<span className="text-lg font-bold text-red-600">{t("logout")}</span>
+					</Link>
 				</div>
 			</section>
 
@@ -436,5 +527,3 @@ export default function Profile({ params }) {
 		</div>
 	);
 }
-
-
