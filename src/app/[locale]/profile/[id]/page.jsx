@@ -45,12 +45,12 @@ import { formatToCurrencyTHB } from "@/helpers/currencyDisplay";
 const VIP_TIERS = {
 	0: {
 		name: "Member",
-		color: "from-slate-400 to-slate-600",
-		textColor: "text-slate-100",
+		color: "from-[#084392] to-[#064080]",
+		textColor: "text-white",
 		icon: Star,
 		benefits: ["Basic Support"],
-		bgPattern: "bg-gradient-to-br from-slate-50 to-slate-100",
-		borderColor: "border-slate-300",
+		bgPattern: "bg-gradient-to-br from-blue-50 to-blue-100",
+		borderColor: "border-[#084392]",
 	},
 	1: {
 		name: "Silver Elite",
@@ -228,7 +228,7 @@ export default function Profile({ params }) {
 				{/* VIP Header Section */}
 				<div className="relative">
 					{/* VIP Background Header */}
-					<div className={`${userVipLevel > 0 ? `bg-gradient-to-r ${currentVip.color}` : 'bg-gradient-to-r from-gray-100 to-gray-200'} px-4 pt-8 pb-6 relative overflow-hidden`}>
+					<div className={`${userVipLevel >= 0 ? `bg-gradient-to-r ${currentVip.color}` : 'bg-gradient-to-r from-gray-100 to-gray-200'} px-4 pt-8 pb-6 relative overflow-hidden`}>
 						{/* Premium Pattern Overlay */}
 						{userVipLevel > 0 && (
 							<div className="absolute inset-0 opacity-10">
@@ -241,7 +241,7 @@ export default function Profile({ params }) {
 						{/* Contact Support */}
 						<div className="absolute z-10 top-4 right-4">
 							<a href="https://line.me/ti/p/jLKF6aZaYc" target="_blank"
-								className={`${userVipLevel > 0 ? currentVip.textColor : 'text-gray-700'} hover:bg-white/20 flex items-center text-sm rounded-full px-3 py-1 backdrop-blur-sm transition-all duration-300`}>
+								className={`${userVipLevel >= 0 ? currentVip.textColor : 'text-gray-700'} hover:bg-white/20 flex items-center text-sm rounded-full px-3 py-1 backdrop-blur-sm transition-all duration-300`}>
 								<Phone className="w-3 h-3 mr-1" />
 								<span className="hidden sm:inline">Support</span>
 							</a>
@@ -263,9 +263,9 @@ export default function Profile({ params }) {
 						{/* Profile Section */}
 						<div className="relative z-10 flex items-center gap-4">
 							<div className="relative">
-								<Avatar className={`w-20 h-20 ${userVipLevel > 0 ? `border-4 ${currentVip.borderColor} shadow-2xl` : 'border-2 border-gray-300'} transition-all duration-300`}>
+								<Avatar className={`w-20 h-20 ${userVipLevel >= 0 ? `border-4 ${currentVip.borderColor} shadow-2xl` : 'border-2 border-gray-300'} transition-all duration-300`}>
 									<AvatarImage src={process.env.NEXT_PUBLIC_MEDIUM_RESIZE + userDetail?.image || "/placeholder.svg"} alt="Profile" />
-									<AvatarFallback className={`text-xl font-bold ${userVipLevel > 0 ? 'bg-white/20 text-white' : 'bg-gray-100'}`}>
+									<AvatarFallback className={`text-xl font-bold ${userVipLevel >= 0 ? 'bg-white/20 text-white' : 'bg-gray-100'}`}>
 										{userDetail?.firstName?.charAt(0)}
 									</AvatarFallback>
 								</Avatar>
@@ -276,12 +276,12 @@ export default function Profile({ params }) {
 								)}
 							</div>
 							<div className="flex-1">
-								<h1 className={`text-xl font-bold ${userVipLevel > 0 ? currentVip.textColor : 'text-gray-800'} mb-1`}>
+								<h1 className={`text-xl font-bold ${userVipLevel >= 0 ? currentVip.textColor : 'text-gray-800'} mb-1`}>
 									{userDetail?.role === "MEMBER" && userDetail?.memberStatus === "APPROVED"
 										? userDetail?.memberShopName
 										: `${userDetail?.firstName} ${userDetail?.lastName}`}
 								</h1>
-								<p className={`text-sm ${userVipLevel > 0 ? currentVip.textColor + ' opacity-90' : 'text-gray-500'} mb-2`}>
+								<p className={`text-sm ${userVipLevel >= 0 ? currentVip.textColor + ' opacity-90' : 'text-gray-500'} mb-2`}>
 									Member ID: {userDetail?.vipCode}
 								</p>
 								{/* VIP Benefits Preview */}
@@ -333,7 +333,7 @@ export default function Profile({ params }) {
 				</div>
 
 				{/* Main Content Section */}
-				<div className="px-4 pb-20 bg-white">
+				<div className="px-4 pb-20 bg-blue-50">
 					{/* Order Status Section */}
 					<div className="mb-6">
 						<h2 className="flex items-center gap-2 mb-4 text-lg font-bold text-gray-800">
