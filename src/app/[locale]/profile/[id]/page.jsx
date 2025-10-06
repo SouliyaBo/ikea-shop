@@ -224,7 +224,7 @@ export default function Profile({ params }) {
 
 	return (
 		<div className="flex flex-col w-full h-dvh">
-			<section className="relative flex-1 overflow-x-hidden overflow-y-auto bg-white scroll-smooth">
+			<section className="relative flex-1 overflow-x-hidden overflow-y-auto bg-blue-50 scroll-smooth">
 				{/* VIP Header Section */}
 				<div className="relative">
 					{/* VIP Background Header */}
@@ -325,7 +325,7 @@ export default function Profile({ params }) {
 					)}
 
 					{/* View All Link */}
-					<div className="flex justify-end px-4 mt-4 mb-2">
+					<div className="flex justify-end px-4 mt-4 mb-">
 						<Link href={`/order-tabs/${id}`} className="flex items-center gap-1 text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-800">
 							ดูทั้งหมด <ChevronRight className="w-3 h-3" />
 						</Link>
@@ -341,7 +341,7 @@ export default function Profile({ params }) {
 							คำสั่งของฉัน
 						</h2>
 						<div className="grid grid-cols-4 gap-2">
-							<Link href={`/pending-orders/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-blue-50 rounded-xl hover:bg-blue-100 hover:shadow-md">
+							<Link href={`/pending-orders/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-blue-50 rounded-xl">
 								<div className="relative flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-blue-500 to-blue-600">
 									<ClipboardList className="w-6 h-6 text-white" />
 									{orderCount > 0 && (
@@ -352,7 +352,7 @@ export default function Profile({ params }) {
 								</div>
 								<span className="text-xs font-medium text-center text-gray-700">คำสั่งซื้อ</span>
 							</Link>
-							<Link href={`/shipping-orders/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-orange-50 rounded-xl hover:bg-orange-100 hover:shadow-md">
+							<Link href={`/shipping-orders/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 rounded-xl">
 								<div className="relative flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-orange-500 to-orange-600">
 									<ArchiveRestore className="w-6 h-6 text-white" />
 									{shippingCount > 0 && (
@@ -363,13 +363,13 @@ export default function Profile({ params }) {
 								</div>
 								<span className="text-xs font-medium text-center text-gray-700">รอการจัดส่ง</span>
 							</Link>
-							<Link href={`/completed-orders/${id}`} className="flex flex-col items-center p-3 bg-green-50 rounded-xl">
+							<Link href={`/completed-orders/${id}`} className="flex flex-col items-center p-3 rounded-xl">
 								<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-green-500 to-green-600">
 									<Coins className="w-6 h-6 text-white" />
 								</div>
 								<span className="text-xs font-medium text-center text-gray-700">จัดส่งสำเร็จ</span>
 							</Link>
-							<Link href={`/cancelled-orders/${id}`} className="flex flex-col items-center p-3 bg-red-50 rounded-xl">
+							<Link href={`/cancelled-orders/${id}`} className="flex flex-col items-center p-3 rounded-xl">
 								<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-red-500 to-red-600">
 									<XCircle className="w-6 h-6 text-white" />
 								</div>
@@ -387,19 +387,19 @@ export default function Profile({ params }) {
 								บริการหลัก
 							</h3>
 							<div className="grid grid-cols-3 gap-3">
-								<Link href={`/select-product-to-store/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-green-50 rounded-xl hover:bg-green-100 hover:shadow-md">
+								<Link href={`/select-product-to-store/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 ">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-green-500 to-green-600">
 										<ArchiveRestore className="w-6 h-6 text-white" />
 									</div>
 									<span className="text-xs font-medium text-center text-gray-700">{t("selectProductsToAddToYourStore")}</span>
 								</Link>
-								<Link href={`/my-store-products/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-orange-50 rounded-xl hover:bg-orange-100 hover:shadow-md">
+								<Link href={`/my-store-products/${id}`} className="flex flex-col items-center p-3 transition-all duration-200">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-orange-500 to-orange-600">
 										<PiggyBank className="w-6 h-6 text-white" />
 									</div>
 									<span className="text-xs font-medium text-center text-gray-700">ดูสินค้าในร้าน</span>
 								</Link>
-								<Link href={`/profile/payment-password/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-red-50 rounded-xl hover:bg-red-100 hover:shadow-md">
+								<Link href={`/profile/payment-password/${id}`} className="flex flex-col items-center p-3 transition-all duration-200">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-red-500 to-red-600">
 										<RectangleEllipsis className="w-6 h-6 text-white" />
 									</div>
@@ -421,25 +421,25 @@ export default function Profile({ params }) {
 								การตั้งค่า
 							</h3>
 							<div className="grid grid-cols-4 gap-3">
-								<Link href={`/profile/edit/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-blue-50 rounded-xl hover:bg-blue-100 hover:shadow-md">
+								<Link href={`/profile/edit/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 rounded-xl ">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-blue-600 to-blue-700">
 										<UserRoundCog className="w-6 h-6 text-white" />
 									</div>
 									<span className="text-xs font-medium text-center text-gray-700">แก้ไขโปรไฟล์</span>
 								</Link>
-								<Link href={`/profile/bank/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-green-50 rounded-xl hover:bg-green-100 hover:shadow-md">
+								<Link href={`/profile/bank/${id}`} className="flex flex-col items-center p-3 transition-all duration-200">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-green-600 to-green-700">
 										<CreditCard className="w-6 h-6 text-white" />
 									</div>
 									<span className="text-xs font-medium text-center text-gray-700">แก้ไขข้อมูลธนาคาร</span>
 								</Link>
-								<Link href={`/withdraw-profit/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-orange-50 rounded-xl hover:bg-orange-100 hover:shadow-md">
+								<Link href={`/withdraw-profit/${id}`} className="flex flex-col items-center p-3 transition-all duration-200">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-orange-600 to-orange-700">
 										<TrendingDown className="w-6 h-6 text-white" />
 									</div>
 									<span className="text-xs font-medium text-center text-gray-700">ถอนกำไร</span>
 								</Link>
-								<Link href={`/profile/top-up/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-purple-50 rounded-xl hover:bg-purple-100 hover:shadow-md">
+								<Link href={`/profile/top-up/${id}`} className="flex flex-col items-center p-3 transition-all duration-200">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-purple-600 to-purple-700">
 										<BanknoteIcon className="w-6 h-6 text-white" />
 									</div>
