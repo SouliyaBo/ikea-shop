@@ -16,29 +16,26 @@ import {
 	Diamond,
 	Star,
 	PiggyBank,
-	Phone,
-	Coins,
+	Headset,
+	ClipboardCheck,
+	ClipboardX,
 	LogOut,
 	Wallet,
 	ArchiveRestore,
 	CreditCard,
 	HandCoins,
-	DiamondPercent,
 	RectangleEllipsis,
-	XCircle,
 	TrendingDown,
 	BanknoteIcon,
+	Coins,
 } from "lucide-react";
 
 // UI
 import Footer from "@/components/Home/Footer";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Badge from "@/components/ui/badge";
-import AuthGuard from "@/components/AuthGuard";
 
 // Constants
 import { get } from "@/helpers";
-import numberFormat from "@/helpers/numberFormat";
 import { gets } from "@/helpers/index";
 import { formatToCurrencyTHB } from "@/helpers/currencyDisplay";
 
@@ -242,8 +239,8 @@ export default function Profile({ params }) {
 						<div className="absolute z-10 top-4 right-4">
 							<a href="https://line.me/ti/p/jLKF6aZaYc" target="_blank"
 								className={`${userVipLevel >= 0 ? currentVip.textColor : 'text-gray-700'} hover:bg-white/20 flex items-center text-sm rounded-full px-3 py-1 backdrop-blur-sm transition-all duration-300`}>
-								<Phone className="w-3 h-3 mr-1" />
-								<span className="hidden sm:inline">Support</span>
+								<Headset className="w-3 h-3 mr-1" />
+								<span className="hidden sm:inline">{t("contactServiceCenter")}</span>
 							</a>
 						</div>
 
@@ -307,7 +304,7 @@ export default function Profile({ params }) {
 										<Wallet className="w-5 h-5 text-white" />
 									</div>
 									<div>
-										<p className="text-xs font-medium text-gray-600">กระเป่าเงิน</p>
+										<p className="text-xs font-medium text-gray-600">Wallet</p>
 										<p className="text-lg font-bold text-gray-800">{moneyUser?.money ? formatToCurrencyTHB(moneyUser?.money) : '฿0'}</p>
 									</div>
 								</div>
@@ -327,7 +324,7 @@ export default function Profile({ params }) {
 					{/* View All Link */}
 					<div className="flex justify-end px-4 mt-4 mb-">
 						<Link href={`/order-tabs/${id}`} className="flex items-center gap-1 text-sm font-medium text-blue-600 transition-colors duration-200 hover:text-blue-800">
-							ดูทั้งหมด <ChevronRight className="w-3 h-3" />
+							{t("seeAll")} <ChevronRight className="w-3 h-3" />
 						</Link>
 					</div>
 				</div>
@@ -338,7 +335,7 @@ export default function Profile({ params }) {
 					<div className="mb-6">
 						<h2 className="flex items-center gap-2 mb-4 text-lg font-bold text-gray-800">
 							<ClipboardList className="w-5 h-5 text-blue-600" />
-							คำสั่งของฉัน
+							{t("myOrders")}
 						</h2>
 						<div className="grid grid-cols-4 gap-2">
 							<Link href={`/pending-orders/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-blue-50 rounded-xl">
@@ -350,30 +347,30 @@ export default function Profile({ params }) {
 										</div>
 									)}
 								</div>
-								<span className="text-xs font-medium text-center text-gray-700">คำสั่งซื้อ</span>
+								<span className="text-xs font-medium text-center text-gray-700">{t("order")}</span>
 							</Link>
 							<Link href={`/shipping-orders/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 rounded-xl">
 								<div className="relative flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-orange-500 to-orange-600">
-									<ArchiveRestore className="w-6 h-6 text-white" />
+									<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBjbGFzcz0ibHVjaWRlIGx1Y2lkZS1jbGlwYm9hcmQtY2xvY2staWNvbiBsdWNpZGUtY2xpcGJvYXJkLWNsb2NrIj48cGF0aCBkPSJNMTYgMTR2Mi4ybDEuNiAxIi8+PHBhdGggZD0iTTE2IDRoMmEyIDIgMCAwIDEgMiAydi44MzIiLz48cGF0aCBkPSJNOCA0SDZhMiAyIDAgMCAwLTIgMnYxNGEyIDIgMCAwIDAgMiAyaDIiLz48Y2lyY2xlIGN4PSIxNiIgY3k9IjE2IiByPSI2Ii8+PHJlY3QgeD0iOCIgeT0iMiIgd2lkdGg9IjgiIGhlaWdodD0iNCIgcng9IjEiLz48L3N2Zz4=" className="w-6 h-6 text-white" />
 									{shippingCount > 0 && (
 										<div className="absolute flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full shadow-lg -top-2 -right-2 animate-pulse">
 											{shippingCount}
 										</div>
 									)}
 								</div>
-								<span className="text-xs font-medium text-center text-gray-700">รอการจัดส่ง</span>
+								<span className="text-xs font-medium text-center text-gray-700">{t("waitingForDelivery")}</span>
 							</Link>
 							<Link href={`/completed-orders/${id}`} className="flex flex-col items-center p-3 rounded-xl">
 								<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-green-500 to-green-600">
 									<Coins className="w-6 h-6 text-white" />
 								</div>
-								<span className="text-xs font-medium text-center text-gray-700">จัดส่งสำเร็จ</span>
+								<span className="text-xs font-medium text-center text-gray-700">{t("successfulDelivery")}</span>
 							</Link>
 							<Link href={`/cancelled-orders/${id}`} className="flex flex-col items-center p-3 rounded-xl">
 								<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-red-500 to-red-600">
-									<XCircle className="w-6 h-6 text-white" />
+									<ClipboardX className="w-6 h-6 text-white" />
 								</div>
-								<span className="text-xs font-medium text-center text-gray-700">ยกเลิก</span>
+								<span className="text-xs font-medium text-center text-gray-700">{t("cancel")}</span>
 							</Link>
 						</div>
 					</div>
@@ -384,9 +381,9 @@ export default function Profile({ params }) {
 						<div>
 							<h3 className="flex items-center gap-2 mb-3 text-lg font-bold text-gray-800">
 								<Sparkles className="w-5 h-5 text-purple-600" />
-								บริการหลัก
+								{t("coreServices")}
 							</h3>
-							<div className="grid grid-cols-3 gap-3">
+							<div className="grid grid-cols-4 gap-3">
 								<Link href={`/select-product-to-store/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 ">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-green-500 to-green-600">
 										<ArchiveRestore className="w-6 h-6 text-white" />
@@ -397,7 +394,7 @@ export default function Profile({ params }) {
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-orange-500 to-orange-600">
 										<PiggyBank className="w-6 h-6 text-white" />
 									</div>
-									<span className="text-xs font-medium text-center text-gray-700">ดูสินค้าในร้าน</span>
+									<span className="text-xs font-medium text-center text-gray-700">{t("viewProductsInTheStore")}</span>
 								</Link>
 								<Link href={`/profile/payment-password/${id}`} className="flex flex-col items-center p-3 transition-all duration-200">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-red-500 to-red-600">
@@ -405,12 +402,12 @@ export default function Profile({ params }) {
 									</div>
 									<span className="text-xs font-medium text-center text-gray-700">{t("paymentPassword")}</span>
 								</Link>
-								{/* <div className="flex flex-col items-center p-3 transition-all duration-200 bg-blue-50 rounded-xl hover:bg-blue-100 hover:shadow-md">
+								<Link href={`/profile/top-up/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 bg-blue-50 rounded-xl">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-blue-500 to-blue-600">
-										<DiamondPercent className="w-6 h-6 text-white" />
+										<HandCoins className="w-6 h-6 text-white" />
 									</div>
-									<span className="text-xs font-medium text-center text-gray-700">การประเมินผล</span>
-								</div> */}
+									<span className="text-xs font-medium text-center text-gray-700">{t("topUp")}</span>
+								</Link>
 							</div>
 						</div>
 
@@ -418,72 +415,56 @@ export default function Profile({ params }) {
 						<div>
 							<h3 className="flex items-center gap-2 mb-3 text-lg font-bold text-gray-800">
 								<UserRoundCog className="w-5 h-5 text-gray-600" />
-								การตั้งค่า
+								{t("settings")}
 							</h3>
 							<div className="grid grid-cols-4 gap-3">
 								<Link href={`/profile/edit/${id}`} className="flex flex-col items-center p-3 transition-all duration-200 rounded-xl ">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-blue-600 to-blue-700">
 										<UserRoundCog className="w-6 h-6 text-white" />
 									</div>
-									<span className="text-xs font-medium text-center text-gray-700">แก้ไขโปรไฟล์</span>
+									<span className="text-xs font-medium text-center text-gray-700">{t("editProfile")}</span>
 								</Link>
 								<Link href={`/profile/bank/${id}`} className="flex flex-col items-center p-3 transition-all duration-200">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-green-600 to-green-700">
 										<CreditCard className="w-6 h-6 text-white" />
 									</div>
-									<span className="text-xs font-medium text-center text-gray-700">แก้ไขข้อมูลธนาคาร</span>
+									<span className="text-xs font-medium text-center text-gray-700">{t("editBankInfo")}</span>
 								</Link>
 								<Link href={`/withdraw-profit/${id}`} className="flex flex-col items-center p-3 transition-all duration-200">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-orange-600 to-orange-700">
 										<TrendingDown className="w-6 h-6 text-white" />
 									</div>
-									<span className="text-xs font-medium text-center text-gray-700">ถอนกำไร</span>
+									<span className="text-xs font-medium text-center text-gray-700">{t("withdrawProfit")}</span>
 								</Link>
-								<Link href={`/profile/top-up/${id}`} className="flex flex-col items-center p-3 transition-all duration-200">
+								<Link href={`/claim-history/${id}`} className="flex flex-col items-center p-3 transition-all duration-200">
 									<div className="flex items-center justify-center w-12 h-12 mb-2 rounded-lg shadow-lg bg-gradient-to-r from-purple-600 to-purple-700">
 										<BanknoteIcon className="w-6 h-6 text-white" />
 									</div>
-									<span className="text-xs font-medium text-center text-gray-700">ถอน</span>
+									<span className="text-xs font-medium text-center text-gray-700">{t("claimHistory")}</span>
+								</Link>
+							</div>
+						</div>
+
+						{/* Help Section */}
+						<div>
+							<h3 className="flex items-center gap-2 mb-3 text-lg font-bold text-gray-800">
+								<Headset className="w-5 h-5 text-red-600" />
+								ช่วยเหลือ
+							</h3>
+							<div className="grid grid-cols-1 gap-3">
+								<Link href={`/help/${id}`} className="flex items-center gap-3 p-4 transition-all duration-200 bg-gradient-to-r from-red-50 to-pink-50 border border-red-200 shadow-lg rounded-xl hover:from-red-100 hover:to-pink-100 hover:shadow-xl">
+									<div className="flex items-center justify-center w-12 h-12 rounded-lg shadow-lg bg-gradient-to-r from-red-500 to-red-600">
+										<Headset className="w-6 h-6 text-white" />
+									</div>
+									<div className="flex-1">
+										<span className="text-lg font-bold text-red-600">ช่วยเหลือ!</span>
+										<p className="text-sm text-red-500">คู่มือการใช้งาน และคำถามที่พบบ่อย</p>
+									</div>
+									<ChevronRight className="w-5 h-5 text-red-400" />
 								</Link>
 							</div>
 						</div>
 					</div>
-
-					{/* Additional Menu for Members */}
-					{/* {userDetail?.role === "MEMBER" && userDetail?.memberStatus === "APPROVED" && (
-						<div className={`mt-6 ${userVipLevel > 0 ? currentVip.bgPattern : 'bg-gray-50'} rounded-xl p-4 border ${userVipLevel > 0 ? currentVip.borderColor : 'border-gray-200'} shadow-lg`}>
-							<h3 className="flex items-center gap-2 mb-4 text-lg font-bold text-gray-800">
-								<Crown className={`w-5 h-5 ${userVipLevel > 0 ? 'text-yellow-600' : 'text-gray-600'}`} />
-								เมนูสมาชิก {userVipLevel > 0 && <span className="text-sm font-medium text-yellow-600">VIP</span>}
-							</h3>
-							<div className="grid grid-cols-2 gap-3">
-								<Link href={`/profile/bank/${id}`} className="flex items-center gap-3 p-4 transition-all duration-200 bg-white shadow-md rounded-xl hover:bg-gray-50 hover:shadow-lg">
-									<div className={`w-10 h-10 ${userVipLevel > 0 ? `bg-gradient-to-r ${currentVip.color}` : 'bg-blue-500'} rounded-lg flex items-center justify-center shadow-lg`}>
-										<CreditCard className="w-5 h-5 text-white" />
-									</div>
-									<span className="text-sm font-medium text-gray-700">{t("editBankInfo")}</span>
-								</Link>
-								<Link href={`/profile/payment-password/${id}`} className="flex items-center gap-3 p-4 transition-all duration-200 bg-white shadow-md rounded-xl hover:bg-gray-50 hover:shadow-lg">
-									<div className={`w-10 h-10 ${userVipLevel > 0 ? `bg-gradient-to-r ${currentVip.color}` : 'bg-green-500'} rounded-lg flex items-center justify-center shadow-lg`}>
-										<Wallet className="w-5 h-5 text-white" />
-									</div>
-									<span className="text-sm font-medium text-gray-700">{t("paymentPassword")}</span>
-								</Link>
-								<Link href={`/select-product-to-store/${id}`} className="flex items-center gap-3 p-4 transition-all duration-200 bg-white shadow-md rounded-xl hover:bg-gray-50 hover:shadow-lg">
-									<div className={`w-10 h-10 ${userVipLevel > 0 ? `bg-gradient-to-r ${currentVip.color}` : 'bg-purple-500'} rounded-lg flex items-center justify-center shadow-lg`}>
-										<ArchiveRestore className="w-5 h-5 text-white" />
-									</div>
-									<span className="text-sm font-medium text-gray-700">{t("selectProductsToAddToYourStore")}</span>
-								</Link>
-								<Link href={`/withdraw-profit/${id}`} className="flex items-center gap-3 p-4 transition-all duration-200 bg-white shadow-md rounded-xl hover:bg-gray-50 hover:shadow-lg">
-									<div className={`w-10 h-10 ${userVipLevel > 0 ? `bg-gradient-to-r ${currentVip.color}` : 'bg-orange-500'} rounded-lg flex items-center justify-center shadow-lg`}>
-										<PiggyBank className="w-5 h-5 text-white" />
-									</div>
-									<span className="text-sm font-medium text-gray-700">{t("withdrawProfit")}</span>
-								</Link>
-							</div>
-						</div>
-					)} */}
 
 					{/* Logout Button */}
 					<Link href="/logout" className="flex items-center justify-center gap-3 p-4 mt-6 transition-all duration-200 border border-red-200 shadow-lg bg-gradient-to-r from-red-50 to-pink-50 rounded-xl hover:from-red-100 hover:to-pink-100 hover:shadow-xl">

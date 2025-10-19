@@ -7,6 +7,9 @@ import { useRouter } from "@/navigation";
 import { Formik } from "formik";
 import { useTranslations } from "next-intl";
 
+// Toast
+import { useToast } from "@/components/ui/use-toast";
+
 // Icons
 import { ChevronLeft } from "lucide-react";
 
@@ -28,6 +31,7 @@ import { IS_TESTING_MODE, getSessionDuration } from "@/config/testConfig";
 export default function Login() {
 	const router = useRouter();
 	const t = useTranslations("");
+	const { toast } = useToast();
 	const [selectedCountry, setSelectedCountry] = useState({ id: "66", code: "+66", flag: "🇹🇭", name: "ไทย" });
 	// Effects
 	useEffect(() => {
@@ -53,19 +57,23 @@ export default function Login() {
 					lastActivity: new Date().getTime()
 				};
 				localStorage.setItem(USER_DATA, JSON.stringify(userDataWithTime));
-				
+
 				// แสดงข้อมูลการทดสอบ
 				if (IS_TESTING_MODE) {
 					const sessionDuration = getSessionDuration();
 					console.log(`🧪 โหมดทดสอบ: Session จะหมดอายุใน ${sessionDuration / 1000} วินาที`);
 				}
-				
+
 				router.replace("/");
 			},
 			(error) => {
 				console.log("error:: ", error);
-				// ใช้ alert ธรรมดาแทน SweetAlert เพื่อป้องกัน SSR error
-				alert("ไม่สำเร็จ!\n\nกรุณาลองใหม่อีกครั้ง");
+				// ใช้ toast แทน alert เพื่อ UX ที่ดีกว่า
+				toast({
+					variant: "destructive",
+					title: "เข้าสู่ระบบไม่สำเร็จ",
+					description: "กรุณาตรวจสอบหมายเลขโทรศัพท์และรหัสผ่าน แล้วลองใหม่อีกครั้ง",
+				});
 			},
 		);
 	};
@@ -82,7 +90,7 @@ export default function Login() {
 			<div className="flex-center">
 				<h1 className="text-xl font-semibold mt-[60px]">{t("login")}</h1>
 				{IS_TESTING_MODE && (
-					<div className="mt-2 px-3 py-1 bg-orange-100 text-orange-800 text-xs rounded-full">
+					<div className="px-3 py-1 mt-2 text-xs text-orange-800 bg-orange-100 rounded-full">
 						🧪 โหมดทดสอบ: Session หมดอายุใน {getSessionDuration() / 1000} วินาที
 					</div>
 				)}

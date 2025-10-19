@@ -3,24 +3,17 @@ import { useEffect, useState } from "react";
 import { useRouter } from "@/navigation";
 
 // Third Party
-import { Formik } from "formik";
 import { useTranslations } from "next-intl";
 
 // Icons
-import { ChevronLeft, Headset } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 
 // UI
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import Loader from "@/components/Loader";
 
 // Constants and Helpers
-import { USER, IMG_PREFIX_S3 } from "@/constants/api";
-import { create, get, uploadS3File } from "@/helpers";
-import DotSpinner from "@/components/DotSpinner";
-import { useToast } from "@/components/ui/use-toast";
+import { get } from "@/helpers";
 
 export default function TopUp({ params }) {
     const { id } = params;
@@ -28,13 +21,9 @@ export default function TopUp({ params }) {
     const router = useRouter();
     const USER_DATA = JSON.parse(localStorage.getItem("USER_DATA"));
     const ACCESS_TOKEN = USER_DATA.accessToken;
-    const [userBank, setUserBank] = useState(null);
-    const { toast } = useToast();
 
     // Event Trigger
     const [loading, setLoading] = useState(false);
-    const [imageLoading, setImageLoading] = useState(false);
-    const [newImage, setNewImage] = useState(false);
 
     // Use Effect
     useEffect(() => {
@@ -59,48 +48,6 @@ export default function TopUp({ params }) {
         router.push(`/profile/${id}`);
     };
 
-    const handleUploadImage = async (event) => {
-        setImageLoading(true);
-        const imageUrl = await uploadS3File(event);
-        if (imageUrl) {
-            setNewImage(imageUrl);
-        }
-
-        setImageLoading(false);
-    };
-
-    const handleSubmit = async (values) => {
-        setLoading(true);
-        const prepareData = {
-            ...values,
-            receipt: newImage ? newImage : userBank?.qrCode,
-
-        };
-        await create(
-            `${process.env.NEXT_PUBLIC_API_LINK}/v1/api/recharge`,
-            prepareData,
-            USER_DATA.accessToken,
-            setLoading,
-            (data) => {
-                console.log(data);
-                toast({
-                    title: t("successful"),
-                    description: t("topUpSuccessfulWaitingForAdminApproval"),
-                });
-                setTimeout(() => {
-                    setLoading(false);
-                    router.push(`/profile/${id}`);
-                }, 1000);
-
-
-            },
-            (error) => {
-                console.log('error:', error);
-            },
-        );
-
-    };
-
     return (
         <div className="relative w-full h-dvh">
             {loading ? (
@@ -121,12 +68,12 @@ export default function TopUp({ params }) {
                         </h1>
                     </div>
 
-                    <div className="text-center flex flex-col gap-6">
+                    <div className="flex flex-col gap-6 text-center">
                         <div className="text-center">
                             <h1 className="text-lg font-bold">{t("contactServiceDepartment")}</h1>
                             <p>{t("contactServiceDetail")}</p>
                         </div>
-                        <div className="px-10 flex justify-center">
+                        <div className="flex justify-center px-10">
                             <img src="/images/line-qr.png" className="w-[50%]" alt="contact" />
                         </div>
                         <div className="text-center">
