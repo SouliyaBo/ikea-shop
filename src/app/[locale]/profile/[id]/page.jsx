@@ -88,7 +88,7 @@ const VIP_TIERS = {
 	5: {
 		name: "Black Infinity",
 		color: "from-gray-800 to-black",
-		textColor: "text-gray-100",
+		textColor: "text-gray-50",
 		icon: Sparkles,
 		benefits: ["25% Cashback", "White Glove Service", "Unlimited Access"],
 		bgPattern: "bg-gradient-to-br from-gray-900 to-black",
@@ -304,8 +304,8 @@ export default function Profile({ params }) {
 										<Wallet className="w-5 h-5 text-white" />
 									</div>
 									<div>
-										<p className="text-xs font-medium text-gray-600">Wallet</p>
-										<p className="text-lg font-bold text-gray-800">{moneyUser?.money ? formatToCurrencyTHB(moneyUser?.money) : '฿0'}</p>
+										<p className={`text-xs font-medium ${userVipLevel > 0 ? currentVip.textColor : 'text-gray-600'}`}>Wallet</p>
+										<p className={`text-lg font-bold ${userVipLevel > 0 ? currentVip.textColor : 'text-gray-800'}`}>{moneyUser?.money ? formatToCurrencyTHB(moneyUser?.money) : '฿0'}</p>
 									</div>
 								</div>
 								<div className={`flex-1 ${userVipLevel > 0 ? currentVip.bgPattern : 'bg-orange-50'} rounded-xl p-4 flex items-center gap-3 shadow-lg border ${userVipLevel > 0 ? currentVip.borderColor : 'border-orange-200'} backdrop-blur-sm`}>
@@ -313,8 +313,8 @@ export default function Profile({ params }) {
 										<PiggyBank className="w-5 h-5 text-white" />
 									</div>
 									<div>
-										<p className="text-xs font-medium text-gray-600">กำไร</p>
-										<p className="text-lg font-bold text-gray-800">{moneyProfit ? formatToCurrencyTHB(moneyProfit?.money) : '฿0'}</p>
+										<p className={`text-xs font-medium ${userVipLevel > 0 ? currentVip.textColor : 'text-gray-600'}`}>กำไร</p>
+										<p className={`text-lg font-bold ${userVipLevel > 0 ? currentVip.textColor : 'text-gray-800'}`}>{moneyProfit ? formatToCurrencyTHB(moneyProfit?.money) : '฿0'}</p>
 									</div>
 								</div>
 							</div>
@@ -452,7 +452,7 @@ export default function Profile({ params }) {
 								ช่วยเหลือ
 							</h3>
 							<div className="grid grid-cols-1 gap-3">
-								<Link href={`/help/${id}`} className="flex items-center gap-3 p-4 transition-all duration-200 bg-gradient-to-r from-red-50 to-pink-50 border border-red-200 shadow-lg rounded-xl hover:from-red-100 hover:to-pink-100 hover:shadow-xl">
+								<Link href={`/help/${id}`} className="flex items-center gap-3 p-4 transition-all duration-200 border border-red-200 shadow-lg bg-gradient-to-r from-red-50 to-pink-50 rounded-xl hover:from-red-100 hover:to-pink-100 hover:shadow-xl">
 									<div className="flex items-center justify-center w-12 h-12 rounded-lg shadow-lg bg-gradient-to-r from-red-500 to-red-600">
 										<Headset className="w-6 h-6 text-white" />
 									</div>
