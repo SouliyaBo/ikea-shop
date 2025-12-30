@@ -237,7 +237,7 @@ export default function Profile({ params }) {
 
 						{/* Contact Support */}
 						<div className="absolute z-10 top-4 right-4">
-							<a href="https://line.me/ti/p/jLKF6aZaYc" target="_blank"
+							<a href="https://line.me/ti/p/vJa92ApPRj/ti/p/jLKF6aZaYc" target="_blank"
 								className={`${userVipLevel >= 0 ? currentVip.textColor : 'text-gray-700'} hover:bg-white/20 flex items-center text-sm rounded-full px-3 py-1 backdrop-blur-sm transition-all duration-300`}>
 								<Headset className="w-3 h-3 mr-1" />
 								<span className="hidden sm:inline">{t("contactServiceCenter")}</span>

@@ -77,7 +77,7 @@ export default function TopUp({ params }) {
                             <img src="/images/line-qr.png" className="w-[50%]" alt="contact" />
                         </div>
                         <div className="text-center">
-                            <a href="https://line.me/ti/p/jLKF6aZaYc" target="_bank" className="underline" >
+                            <a href="https://line.me/ti/p/vJa92ApPRj/ti/p/jLKF6aZaYc" target="_bank" className="underline" >
                                 <span>{t("clickHereToContactCustomerService")}</span>
                             </a>
                         </div>
