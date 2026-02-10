@@ -66,7 +66,7 @@ export default function MoneyUserHistory({ params }) {
 					setMoneyUser(res.data?.data[0]);
 				},
 				(err) => {
-					console.log(err);
+					console.log("error", err);
 				},
 			);
 		}
