@@ -36,6 +36,16 @@ export default function Help({ params }) {
 	const t = useTranslations("");
 
 	const [expandedSection, setExpandedSection] = useState(null);
+	const [lineUrl, setLineUrl] = useState("");
+
+	useEffect(() => {
+		fetch(`${process.env.NEXT_PUBLIC_API_LINK}/v1/api/setting/LINE_URL`)
+			.then(res => res.json())
+			.then(data => {
+				if (data?.data?.value) setLineUrl(data.data.value);
+			})
+			.catch(err => console.log(err));
+	}, []);
 
 	const toggleSection = (sectionId) => {
 		setExpandedSection(expandedSection === sectionId ? null : sectionId);
@@ -179,7 +189,7 @@ export default function Help({ params }) {
 							<p className="text-sm text-gray-500">คู่มือการใช้งาน และคำถามที่พบบ่อย</p>
 						</div>
 						<a
-							href="https://line.me/ti/p/vJa92ApPRj/ti/p/jLKF6aZaYc"
+							href={lineUrl}
 							target="_blank"
 							rel="noopener noreferrer"
 							className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition-all duration-200 rounded-full shadow-lg bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700"
@@ -347,7 +357,7 @@ export default function Help({ params }) {
 						<h3 className="mb-3 text-xl font-bold text-gray-800">ต้องการความช่วยเหลือเพิ่มเติม?</h3>
 						<p className="mb-4 text-gray-600">ทีมงานของเราพร้อมให้บริการ 24/7</p>
 						<a
-							href="https://line.me/ti/p/vJa92ApPRj/ti/p/jLKF6aZaYc"
+							href={lineUrl}
 							target="_blank"
 							rel="noopener noreferrer"
 							className="inline-flex items-center gap-3 px-6 py-3 text-lg font-semibold text-white transition-all duration-200 rounded-full shadow-lg bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 hover:shadow-xl"

@@ -69,6 +69,7 @@ export default function ConfirmOrder() {
 	const [bcelResponse, setBcelResponse] = useState(null);
 	const [slip, setSlip] = useState("");
 	const [imageLoading, setImageLoading] = useState(false);
+	const [lineUrl, setLineUrl] = useState("");
 
 	useEffect(() => {
 		const USER_DATA =
@@ -80,6 +81,14 @@ export default function ConfirmOrder() {
 		setUserData(USER_DATA?.data);
 
 		// getBanks();
+
+		// Fetch LINE URL setting
+		fetch(`${process.env.NEXT_PUBLIC_API_LINK}/v1/api/setting/LINE_URL`)
+			.then(res => res.json())
+			.then(data => {
+				if (data?.data?.value) setLineUrl(data.data.value);
+			})
+			.catch(err => console.log(err));
 	}, []);
 
 	useEffect(() => {
@@ -425,7 +434,7 @@ export default function ConfirmOrder() {
 							<Input id="picture" type="file" onChange={handleUploadImage} />
 						</div> */}
 						<button type="button" onClick={() => setClickContact(true)}>
-							<a href="https://line.me/ti/p/vJa92ApPRj/ti/p/jLKF6aZaYc" target="_bank" className="flex flex-row underline justify-end text-blue-500" >
+							<a href={lineUrl} target="_blank" className="flex flex-row underline justify-end text-blue-500" >
 								<Headset className="mr-2" /><span>{t("contactServiceCenter")}</span>
 							</a>
 						</button>

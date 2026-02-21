@@ -109,6 +109,7 @@ export default function Profile({ params }) {
 	const [orderCount, setOrderCount] = useState(0);
 	const [shippingCount, setShippingCount] = useState(0);
 	const [userVipLevel, setUserVipLevel] = useState(0);
+	const [lineUrl, setLineUrl] = useState("");
 
 	const currentVip = VIP_TIERS[userVipLevel] || VIP_TIERS[0];
 	const VipIcon = currentVip.icon;
@@ -121,6 +122,14 @@ export default function Profile({ params }) {
 
 		setUserToken(USER_DATA?.accessToken);
 		setUserData(USER_DATA);
+
+		// Fetch LINE URL setting
+		fetch(`${process.env.NEXT_PUBLIC_API_LINK}/v1/api/setting/LINE_URL`)
+			.then(res => res.json())
+			.then(data => {
+				if (data?.data?.value) setLineUrl(data.data.value);
+			})
+			.catch(err => console.log(err));
 	}, []);
 
 	// Effect
@@ -237,7 +246,7 @@ export default function Profile({ params }) {
 
 						{/* Contact Support */}
 						<div className="absolute z-10 top-4 right-4">
-							<a href="https://line.me/ti/p/vJa92ApPRj/ti/p/jLKF6aZaYc" target="_blank"
+							<a href={lineUrl} target="_blank"
 								className={`${userVipLevel >= 0 ? currentVip.textColor : 'text-gray-700'} hover:bg-white/20 flex items-center text-sm rounded-full px-3 py-1 backdrop-blur-sm transition-all duration-300`}>
 								<Headset className="w-3 h-3 mr-1" />
 								<span className="hidden sm:inline">{t("contactServiceCenter")}</span>

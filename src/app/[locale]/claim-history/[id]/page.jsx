@@ -39,6 +39,7 @@ export default function MoneyUserHistory({ params }) {
 	const [editableMoney, setEditableMoney] = useState(0);
 	// Event Trigger
 	const [loading, setLoading] = useState(false);
+	const [lineUrl, setLineUrl] = useState("");
 
 	useEffect(() => {
 		const USER_DATA =
@@ -47,6 +48,14 @@ export default function MoneyUserHistory({ params }) {
 				: null;
 
 		setUserToken(USER_DATA?.accessToken);
+
+		// Fetch LINE URL setting
+		fetch(`${process.env.NEXT_PUBLIC_API_LINK}/v1/api/setting/LINE_URL`)
+			.then(res => res.json())
+			.then(data => {
+				if (data?.data?.value) setLineUrl(data.data.value);
+			})
+			.catch(err => console.log(err));
 	}, []);
 
 	useEffect(() => {
@@ -219,7 +228,7 @@ export default function MoneyUserHistory({ params }) {
 							</div>
 							<div className="text-[12px] text-center">
 								<p>{t("ifTheWithdrawnAmountIsNotCreditedWithin30MinutesPleaseReachOutToOurSupportTeam")}</p>
-								<a href="https://line.me/ti/p/vJa92ApPRj/ti/p/jLKF6aZaYc" target="_bank" className={`hover:bg-white/20 flex justify-center underline`}>
+								<a href={lineUrl} target="_blank" className={`hover:bg-white/20 flex justify-center underline`}>
 									<Phone className="w-4 h-4 mr-2" /><span>{t("contactServiceDepartment")}</span>
 								</a>
 							</div>

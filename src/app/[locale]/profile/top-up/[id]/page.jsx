@@ -14,6 +14,7 @@ import Loader from "@/components/Loader";
 
 // Constants and Helpers
 import { get } from "@/helpers";
+import axios from "axios";
 
 export default function TopUp({ params }) {
     const { id } = params;
@@ -24,6 +25,8 @@ export default function TopUp({ params }) {
 
     // Event Trigger
     const [loading, setLoading] = useState(false);
+    const [lineUrl, setLineUrl] = useState("");
+    const [lineQrUrl, setLineQrUrl] = useState("");
 
     // Use Effect
     useEffect(() => {
@@ -42,6 +45,20 @@ export default function TopUp({ params }) {
             },
         );
     }, [id, ACCESS_TOKEN]);
+
+    useEffect(() => {
+        axios.get(`${process.env.NEXT_PUBLIC_API_LINK}/v1/api/setting/LINE_URL`)
+            .then((res) => {
+                if (res?.data?.data?.value) setLineUrl(res.data.data.value);
+            })
+            .catch((err) => console.log(err));
+
+        axios.get(`${process.env.NEXT_PUBLIC_API_LINK}/v1/api/setting/LINE_QR_URL`)
+            .then((res) => {
+                if (res?.data?.data?.value) setLineQrUrl(res.data.data.value);
+            })
+            .catch((err) => console.log(err));
+    }, []);
 
     // Functions
     const handleGoBack = () => {
@@ -74,10 +91,10 @@ export default function TopUp({ params }) {
                             <p>{t("contactServiceDetail")}</p>
                         </div>
                         <div className="flex justify-center px-10">
-                            <img src="/images/line-qr.png" className="w-[50%]" alt="contact" />
+                            <img src={lineQrUrl ? `https://store-rich-bucket.s3.ap-southeast-1.amazonaws.com/images/${lineQrUrl}` : "/images/line-qr.png"} className="w-[50%]" alt="contact" />
                         </div>
                         <div className="text-center">
-                            <a href="https://line.me/ti/p/vJa92ApPRj/ti/p/jLKF6aZaYc" target="_bank" className="underline" >
+                            <a href={lineUrl} target="_blank" className="underline" >
                                 <span>{t("clickHereToContactCustomerService")}</span>
                             </a>
                         </div>
