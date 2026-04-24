@@ -314,7 +314,7 @@ export default function Profile({ params }) {
 									</div>
 									<div>
 										<p className={`text-xs font-medium ${userVipLevel > 0 ? currentVip.textColor : 'text-gray-600'}`}>Wallet</p>
-										<p className={`text-lg font-bold ${userVipLevel > 0 ? currentVip.textColor : 'text-gray-800'}`}>{moneyUser?.money ? formatToCurrencyTHB(moneyUser?.money) : '฿0'}</p>
+										<p className={`text-lg font-bold ${userVipLevel > 0 ? currentVip.textColor : 'text-gray-800'}`}>{moneyUser?.money ? formatToCurrencyTHB(moneyUser?.money) : '$0'}</p>
 									</div>
 								</div>
 								<div className={`flex-1 ${userVipLevel > 0 ? currentVip.bgPattern : 'bg-orange-50'} rounded-xl p-4 flex items-center gap-3 shadow-lg border ${userVipLevel > 0 ? currentVip.borderColor : 'border-orange-200'} backdrop-blur-sm`}>
@@ -323,7 +323,7 @@ export default function Profile({ params }) {
 									</div>
 									<div>
 										<p className={`text-xs font-medium ${userVipLevel > 0 ? currentVip.textColor : 'text-gray-600'}`}>กำไร</p>
-										<p className={`text-lg font-bold ${userVipLevel > 0 ? currentVip.textColor : 'text-gray-800'}`}>{moneyProfit ? formatToCurrencyTHB(moneyProfit?.money) : '฿0'}</p>
+										<p className={`text-lg font-bold ${userVipLevel > 0 ? currentVip.textColor : 'text-gray-800'}`}>{moneyProfit ? formatToCurrencyTHB(moneyProfit?.money) : '$0'}</p>
 									</div>
 								</div>
 							</div>
