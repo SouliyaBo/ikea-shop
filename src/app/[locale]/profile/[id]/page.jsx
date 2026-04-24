@@ -43,7 +43,7 @@ const VIP_TIERS = {
 	0: {
 		name: "Member",
 		color: "from-[#084392] to-[#064080]",
-		textColor: "text-white",
+		textColor: "text-blue-700",
 		icon: Star,
 		benefits: ["Basic Support"],
 		bgPattern: "bg-gradient-to-br from-blue-50 to-blue-100",
@@ -52,7 +52,7 @@ const VIP_TIERS = {
 	1: {
 		name: "Silver Elite",
 		color: "from-slate-400 to-slate-600",
-		textColor: "text-slate-100",
+		textColor: "text-slate-700",
 		icon: Star,
 		benefits: ["5% Cashback", "Priority Support"],
 		bgPattern: "bg-gradient-to-br from-slate-50 to-slate-100",
@@ -61,7 +61,7 @@ const VIP_TIERS = {
 	2: {
 		name: "Gold Premium",
 		color: "from-yellow-400 to-yellow-600",
-		textColor: "text-yellow-100",
+		textColor: "text-amber-800",
 		icon: Award,
 		benefits: ["10% Cashback", "VIP Support", "Exclusive Deals"],
 		bgPattern: "bg-gradient-to-br from-yellow-50 to-amber-100",
@@ -70,7 +70,7 @@ const VIP_TIERS = {
 	3: {
 		name: "Platinum Royal",
 		color: "from-purple-400 to-purple-600",
-		textColor: "text-purple-100",
+		textColor: "text-purple-700",
 		icon: Crown,
 		benefits: ["15% Cashback", "Personal Manager", "Early Access"],
 		bgPattern: "bg-gradient-to-br from-purple-50 to-violet-100",
@@ -79,7 +79,7 @@ const VIP_TIERS = {
 	4: {
 		name: "Diamond Prestige",
 		color: "from-blue-400 to-cyan-600",
-		textColor: "text-blue-100",
+		textColor: "text-cyan-700",
 		icon: Diamond,
 		benefits: ["20% Cashback", "Concierge Service", "Luxury Perks"],
 		bgPattern: "bg-gradient-to-br from-blue-50 to-cyan-100",
