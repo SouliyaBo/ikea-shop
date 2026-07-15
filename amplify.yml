@@ -1,0 +1,20 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        # ปักหมุด pnpm เป็น v9 ให้ตรงกับ lockfile/เครื่อง dev
+        # (pnpm v10 ที่ Amplify ติดตั้งโดย default ทำให้ install ล้มที่ ERR_PNPM_IGNORED_BUILDS)
+        - npm install -g pnpm@9
+        - pnpm install --no-frozen-lockfile
+    build:
+      commands:
+        - pnpm run build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - .next/cache/**/*
+      - node_modules/**/*
