@@ -20,7 +20,7 @@ import { create, update } from "@/helpers";
 function VerifyOtp() {
 	const router = useRouter();
 	const t = useTranslations("");
-	const USER_DATA = JSON.parse(localStorage.getItem("USER_DATA"));
+	const USER_DATA = (typeof window !== "undefined" ? JSON.parse(localStorage.getItem("USER_DATA") || "null") : null);
 
 	const [dataLocal, setDataLocal] = useState({});
 	const [dataUpdateBank, setDataUpdateBank] = useState({});
@@ -51,7 +51,7 @@ function VerifyOtp() {
 				...dataUpdateBank,
 				verifyCode: verifyCode,
 			},
-			USER_DATA.accessToken,
+			USER_DATA?.accessToken,
 			setLoading,
 			(data) => {
 				localStorage.removeItem(DATA_BANK_UPDATE);

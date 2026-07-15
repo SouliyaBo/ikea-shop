@@ -29,8 +29,8 @@ export default function StoreRegisterStepOne() {
 	const t = useTranslations("");
 	const router = useRouter();
 
-	const USER_DATA = JSON.parse(localStorage.getItem("USER_DATA"));
-	const ACCESS_TOKEN = USER_DATA.accessToken;
+	const USER_DATA = (typeof window !== "undefined" ? JSON.parse(localStorage.getItem("USER_DATA") || "null") : null);
+	const ACCESS_TOKEN = USER_DATA?.accessToken;
 
 	const [province, setProvince] = useState(null);
 	const [imageLoading, setImageLoading] = useState(false);

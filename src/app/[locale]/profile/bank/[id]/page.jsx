@@ -38,8 +38,8 @@ export default function ProfileEdit({ params }) {
 	const { id } = params;
 	const t = useTranslations("");
 	const router = useRouter();
-	const USER_DATA = JSON.parse(localStorage.getItem("USER_DATA"));
-	const ACCESS_TOKEN = USER_DATA.accessToken;
+	const USER_DATA = (typeof window !== "undefined" ? JSON.parse(localStorage.getItem("USER_DATA") || "null") : null);
+	const ACCESS_TOKEN = USER_DATA?.accessToken;
 	const [userBank, setUserBank] = useState(null);
 
 	// Event Trigger
@@ -101,7 +101,7 @@ export default function ProfileEdit({ params }) {
 				await create(
 					`${process.env.NEXT_PUBLIC_API_LINK}/v1/api/user-bank`,
 					prepareData,
-					USER_DATA.accessToken,
+					USER_DATA?.accessToken,
 					setLoading,
 					(data) => {
 						console.log(data);
@@ -116,7 +116,7 @@ export default function ProfileEdit({ params }) {
 				await create(
 					`${process.env.NEXT_PUBLIC_API_LINK}/v1/api/user-bank`,
 					prepareData,
-					USER_DATA.accessToken,
+					USER_DATA?.accessToken,
 					setLoading,
 					(data) => {
 						console.log(data);

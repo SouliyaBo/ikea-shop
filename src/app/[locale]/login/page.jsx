@@ -68,6 +68,15 @@ export default function Login() {
 			},
 			(error) => {
 				console.log("error:: ", error);
+				// ร้านค้าที่ยังไม่ได้รับการอนุมัติจากแอดมิน
+				if (error?.response?.data?.errorCode === "MEMBER_NOT_APPROVED") {
+					toast({
+						variant: "destructive",
+						title: "รอการอนุมัติจากแอดมิน",
+						description: "บัญชีร้านค้าของคุณกำลังรอการอนุมัติจากแอดมิน กรุณาลองเข้าสู่ระบบอีกครั้งหลังได้รับการอนุมัติ",
+					});
+					return;
+				}
 				// ใช้ toast แทน alert เพื่อ UX ที่ดีกว่า
 				toast({
 					variant: "destructive",

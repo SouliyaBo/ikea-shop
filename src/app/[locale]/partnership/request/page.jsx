@@ -28,7 +28,7 @@ import { formatToCurrencyTHB } from "@/helpers/currencyDisplay";
 import { create, uploadS3File, gets } from "@/helpers";
 
 export default function RequestPartnership() {
-	const USER_DATA = JSON.parse(localStorage.getItem("USER_DATA"));
+	const USER_DATA = (typeof window !== "undefined" ? JSON.parse(localStorage.getItem("USER_DATA") || "null") : null);
 	const ACCESS_TOKEN = USER_DATA?.accessToken;
 
 	const searchParams = useSearchParams();

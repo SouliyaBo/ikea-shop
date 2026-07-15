@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "@/navigation";
 
 // Third Party
@@ -7,13 +7,14 @@ import { Formik } from "formik";
 import { useTranslations } from "next-intl";
 
 // Icons
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Camera } from "lucide-react";
 
 // UI
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
 import Loader from "@/components/Loader";
 
 // Constants and Helpers
@@ -24,8 +25,12 @@ export default function ProfileEdit({ params }) {
 	const { id } = params;
 	const t = useTranslations("");
 	const router = useRouter();
-	const USER_DATA = JSON.parse(localStorage.getItem("USER_DATA"));
-	const ACCESS_TOKEN = USER_DATA.accessToken;
+	const { toast } = useToast();
+	// อ่าน USER_DATA จาก localStorage ใน useEffect เท่านั้น (ป้องกัน error ตอน SSR)
+	const [USER_DATA, setUserData] = useState(null);
+	const ACCESS_TOKEN = USER_DATA?.accessToken;
+
+	const fileInputRef = useRef(null);
 
 	const [userDetail, setUserDetail] = useState(null);
 	const [province, setProvince] = useState(null);
@@ -35,8 +40,14 @@ export default function ProfileEdit({ params }) {
 	const [imageLoading, setImageLoading] = useState(false);
 	const [newImage, setNewImage] = useState(false);
 
+	// อ่านข้อมูลผู้ใช้จาก localStorage หลัง mount (ฝั่ง client เท่านั้น)
+	useEffect(() => {
+		setUserData(JSON.parse(localStorage.getItem("USER_DATA") || "null"));
+	}, []);
+
 	// Use Effect
 	useEffect(() => {
+		if (!ACCESS_TOKEN) return;
 		get(
 			// `${USER}/${id}`,
 			`${process.env.NEXT_PUBLIC_API_LINK}/v1/api/user/${id}`,
@@ -59,15 +70,56 @@ export default function ProfileEdit({ params }) {
 		router.back();
 	};
 
-	const handleUploadImage = async (event) => {
-		setImageLoading(true);
-		const imageUrl = await uploadS3File(event);
+	const MAX_IMAGE_SIZE = 5 * 1024 * 1024; // 5MB
 
-		if (imageUrl) {
-			setNewImage(imageUrl);
+	const handleUploadImage = async (event) => {
+		const file = event?.target?.files?.[0];
+		if (!file) return;
+
+		// ตรวจสอบว่าเป็นไฟล์รูปภาพ
+		if (!file.type.startsWith("image/")) {
+			toast({
+				variant: "destructive",
+				title: t("invalidImageType"),
+			});
+			event.target.value = "";
+			return;
 		}
 
-		setImageLoading(false);
+		// ตรวจสอบขนาดไฟล์
+		if (file.size > MAX_IMAGE_SIZE) {
+			toast({
+				variant: "destructive",
+				title: t("imageTooLarge"),
+			});
+			event.target.value = "";
+			return;
+		}
+
+		setImageLoading(true);
+		try {
+			const imageUrl = await uploadS3File(event);
+			if (imageUrl) {
+				setNewImage(imageUrl);
+				toast({ title: t("uploadImageSuccess") });
+			} else {
+				throw new Error("No image url returned");
+			}
+		} catch (error) {
+			console.log(error);
+			toast({
+				variant: "destructive",
+				title: t("uploadImageError"),
+			});
+		} finally {
+			setImageLoading(false);
+			// รีเซ็ต input เพื่อให้เลือกไฟล์เดิมซ้ำได้
+			event.target.value = "";
+		}
+	};
+
+	const openFilePicker = () => {
+		fileInputRef.current?.click();
 	};
 
 	const handleSubmit = async (values, resetForm) => {
@@ -85,7 +137,7 @@ export default function ProfileEdit({ params }) {
 			await update(
 				`${process.env.NEXT_PUBLIC_API_LINK}/v1/api/user/${id}`,
 				prepareData,
-				USER_DATA.accessToken,
+				USER_DATA?.accessToken,
 				setLoading,
 				(data) => {
 					setUserDetail(data.data);
@@ -124,29 +176,61 @@ export default function ProfileEdit({ params }) {
 					<h1 className="w-full text-lg font-bold text-center">
 						{t("yourProfile")}
 					</h1>
-					<Avatar className="w-[200px] h-[200px] my-4 mx-auto">
-						{imageLoading ? (
-							<Loader />
-						) : (
-							<>
-								<AvatarImage
-									src={
-										newImage
-											? IMG_PREFIX_S3 + newImage
-											: IMG_PREFIX_S3 + userDetail?.image
-									}
-									className="object-cover"
-								/>
-								<AvatarFallback>{userDetail?.firstName}</AvatarFallback>
-							</>
-						)}
-					</Avatar>
+					<div className="relative w-[200px] h-[200px] my-4 mx-auto">
+						<button
+							type="button"
+							onClick={openFilePicker}
+							disabled={imageLoading}
+							className="relative block w-full h-full rounded-full group focus:outline-none"
+							aria-label={t("clickToUploadImage")}
+						>
+							<Avatar className="w-full h-full">
+								{imageLoading ? (
+									<div className="flex-center w-full h-full">
+										<Loader />
+									</div>
+								) : (
+									<>
+										<AvatarImage
+											src={
+												newImage
+													? IMG_PREFIX_S3 + newImage
+													: IMG_PREFIX_S3 + userDetail?.image
+											}
+											className="object-cover"
+										/>
+										<AvatarFallback>{userDetail?.firstName}</AvatarFallback>
+									</>
+								)}
+							</Avatar>
+							{!imageLoading && (
+								<span className="absolute bottom-2 right-2 flex-center w-12 h-12 text-white rounded-full shadow-md bg-primary">
+									<Camera size={22} />
+								</span>
+							)}
+						</button>
+					</div>
 					<h2 className="text-xl font-semibold text-center">
 						{userDetail?.firstName} {userDetail?.lastName}
 					</h2>
-					<div className="grid mx-auto my-4 w-full max-w-sm items-center gap-1.5">
-						<Label htmlFor="picture">{t("clickToUploadImage")}</Label>
-						<Input id="picture" type="file" onChange={handleUploadImage} />
+					<div className="flex flex-col items-center mx-auto my-4 w-full max-w-sm gap-1.5">
+						<Button
+							type="button"
+							variant="outline"
+							onClick={openFilePicker}
+							disabled={imageLoading}
+						>
+							<Camera size={18} className="mr-2" />
+							{t("clickToUploadImage")}
+						</Button>
+						<Input
+							ref={fileInputRef}
+							id="picture"
+							type="file"
+							accept="image/*"
+							className="hidden"
+							onChange={handleUploadImage}
+						/>
 					</div>
 
 					<Formik

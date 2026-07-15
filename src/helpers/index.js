@@ -256,7 +256,11 @@ export const uploadS3File = async (event) => {
 		}
 		const parts = data?.name.split(".");
 		const newImageName = `${generateName}.${parts[parts.length - 1]}`;
-		const presignData = JSON.stringify({ fileName: newImageName });
+		const contentType = data?.type || "application/octet-stream";
+		const presignData = JSON.stringify({
+			fileName: newImageName,
+			contentType,
+		});
 		const config = {
 			method: "post",
 			maxBodyLength: Number.POSITIVE_INFINITY,
@@ -274,7 +278,9 @@ export const uploadS3File = async (event) => {
 			url: responsePresignUrl?.data?.url,
 			data: data,
 			headers: {
-				"Content-Type": " file/*; image/*",
+				// ต้องตรงกับ contentType ที่ส่งไปให้ backend sign presigned URL เป๊ะ ๆ
+				// มิฉะนั้นจะเจอ SignatureDoesNotMatch
+				"Content-Type": contentType,
 				"Access-Control-Allow-Origin": "*",
 				"Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
 				"Access-Control-Allow-Headers":

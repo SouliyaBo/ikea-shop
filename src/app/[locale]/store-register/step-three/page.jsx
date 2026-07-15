@@ -22,9 +22,9 @@ import { create } from "@/helpers";
 export default function StoreRegisterStepThree() {
 	const router = useRouter();
 
-	const USER_DATA = JSON.parse(localStorage.getItem("USER_DATA"));
-	const registerData = JSON.parse(localStorage.getItem("storeRegisterStep1"));
-	const ACCESS_TOKEN = USER_DATA.accessToken;
+	const USER_DATA = (typeof window !== "undefined" ? JSON.parse(localStorage.getItem("USER_DATA") || "null") : null);
+	const registerData = (typeof window !== "undefined" ? JSON.parse(localStorage.getItem("storeRegisterStep1") || "null") : null);
+	const ACCESS_TOKEN = USER_DATA?.accessToken;
 
 	const [formSubmitting, setFormSubmitting] = useState(false);
 	const [error, setError] = useState("");

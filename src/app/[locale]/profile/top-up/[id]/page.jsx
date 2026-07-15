@@ -20,8 +20,8 @@ export default function TopUp({ params }) {
     const { id } = params;
     const t = useTranslations("");
     const router = useRouter();
-    const USER_DATA = JSON.parse(localStorage.getItem("USER_DATA"));
-    const ACCESS_TOKEN = USER_DATA.accessToken;
+    const USER_DATA = (typeof window !== "undefined" ? JSON.parse(localStorage.getItem("USER_DATA") || "null") : null);
+    const ACCESS_TOKEN = USER_DATA?.accessToken;
 
     // Event Trigger
     const [loading, setLoading] = useState(false);

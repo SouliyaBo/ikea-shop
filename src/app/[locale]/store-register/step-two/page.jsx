@@ -18,7 +18,7 @@ import { Check } from "lucide-react";
 
 export default function StoreRegisterStepTwo() {
 	const router = useRouter();
-	const USER_DATA = JSON.parse(localStorage.getItem("USER_DATA"));
+	const USER_DATA = (typeof window !== "undefined" ? JSON.parse(localStorage.getItem("USER_DATA") || "null") : null);
 	const userData = USER_DATA?.data;
 
 	// Function
