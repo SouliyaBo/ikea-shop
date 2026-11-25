@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
 import { useTranslations } from "next-intl";
 
@@ -8,6 +8,8 @@ import { fetchStatus, installSuspendInterceptor } from "@/lib/systemStatus.mjs";
 
 const SYSTEM_STATUS_URL = `${process.env.NEXT_PUBLIC_API_LINK}/v1/api/system-status`;
 const RECHECK_MS = 60 * 1000;
+// useLayoutEffect warns during server rendering
+const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 // The API enforces the lock; this only shows why nothing works. The session is left untouched.
 const SystemGate = ({ children }) => {
@@ -19,10 +21,11 @@ const SystemGate = ({ children }) => {
 		if (status !== "unknown") setSuspended(status === "suspended");
 	}, []);
 
+	// A layout effect, because pages send their first requests from effects that run before a parent's useEffect
+	useIsomorphicLayoutEffect(() => installSuspendInterceptor(axios, () => setSuspended(true)), []);
+
 	useEffect(() => {
-		const remove = installSuspendInterceptor(axios, () => setSuspended(true));
 		check();
-		return remove;
 	}, [check]);
 
 	useEffect(() => {
