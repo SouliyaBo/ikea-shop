@@ -224,5 +224,8 @@
 	"thisOrderCancelled": "คำสั่งซื้อนี้ถูกยกเลิกแล้ว",
 	"status": "สถานะ",
 	"cancelledAmount": "ยอดที่ยกเลิก",
-	"orderCancelledReorder": "คำสั่งซื้อนี้ถูกยกเลิกแล้ว หากต้องการสั่งซื้อใหม่กรุณาทำรายการใหม่"
+	"orderCancelledReorder": "คำสั่งซื้อนี้ถูกยกเลิกแล้ว หากต้องการสั่งซื้อใหม่กรุณาทำรายการใหม่",
+	"systemSuspendedTitle": "ระบบปิดให้บริการชั่วคราว",
+	"systemSuspendedBody": "กรุณาลองใหม่ภายหลัง",
+	"systemSuspendedRetry": "ลองใหม่"
 }

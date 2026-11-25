@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/components/AuthProvider";
 import SessionChecker from "@/components/SessionChecker";
 import SessionWarning from "@/components/SessionWarning";
+import SystemGate from "@/components/SystemGate";
 
 // I18
 import { NextIntlClientProvider, useMessages } from "next-intl";
@@ -108,7 +109,7 @@ export default function LocaleLayout({ children, params: { locale } }) {
 			>
 				<NextIntlClientProvider messages={messages} locale={locale}>
 					{/* แสดงเฉพาะ children และ Toaster ก่อน */}
-					{children}
+					<SystemGate>{children}</SystemGate>
 					<Toaster />
 				</NextIntlClientProvider>
 				{/* โหลด testing helpers ในโหมด development */}

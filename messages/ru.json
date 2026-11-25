@@ -198,5 +198,8 @@
 	"thisOrderCancelled": "Этот заказ был отменен",
 	"status": "Статус",
 	"cancelledAmount": "Отмененная сумма",
-	"orderCancelledReorder": "Этот заказ был отменен. Если вы хотите заказать снова, оформите новый заказ"
+	"orderCancelledReorder": "Этот заказ был отменен. Если вы хотите заказать снова, оформите новый заказ",
+	"systemSuspendedTitle": "Сервис временно недоступен",
+	"systemSuspendedBody": "Пожалуйста, попробуйте позже.",
+	"systemSuspendedRetry": "Повторить"
 }

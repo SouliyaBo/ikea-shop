@@ -198,5 +198,8 @@
 	"thisOrderCancelled": "Denna beställning har avbrutits",
 	"status": "Status",
 	"cancelledAmount": "Avbrutet belopp",
-	"orderCancelledReorder": "Denna beställning har avbrutits. Om du vill beställa igen, gör en ny beställning"
+	"orderCancelledReorder": "Denna beställning har avbrutits. Om du vill beställa igen, gör en ny beställning",
+	"systemSuspendedTitle": "Tjänsten är tillfälligt otillgänglig",
+	"systemSuspendedBody": "Försök igen senare.",
+	"systemSuspendedRetry": "Försök igen"
 }

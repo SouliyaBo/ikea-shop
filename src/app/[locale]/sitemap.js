@@ -1,20 +1,26 @@
 const defaultLocale = "th";
 const locales = ["th", "la", "en"];
 
+// The API answers 503 while the system is suspended; the sitemap then lists static pages only
+async function fetchProducts() {
+	try {
+		const response = await fetch(
+			`${process.env.API_LINK}/v1/api/product/sale?limit=1000`,
+		);
+		if (!response.ok) return [];
+		const products = (await response.json())?.data?.data;
+		return Array.isArray(products) ? products : [];
+	} catch (error) {
+		return [];
+	}
+}
+
 export default async function sitemap() {
 	const baseUrl = "https://www.dee2u.com";
 
-	const response = await fetch(
-		`${process.env.API_LINK}/v1/api/product/sale?limit=1000`,
-	);
+	const products = await fetchProducts();
 
-	const productsData = await response.json();
-
-	if (!productsData || !productsData.data || !productsData.data.data) {
-		throw new Error("Invalid products data");
-	}
-
-	const productSitemap = productsData.data.data
+	const productSitemap = products
 		.map((product) => {
 			const id = product?._id;
 			if (!id) return null;

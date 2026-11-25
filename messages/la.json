@@ -94,5 +94,8 @@
 	"addToCartSuccess": "ເພີ່ມເຂົ້າກະຕ່າສຳເລັດ",
 	"operationSuccessful": "ການດຳເນີນການສຳເລັດ",
 	"pleaseTryAgain": "ກະລຸນາລອງໃໝ່ອີກຄັ້ງ",
-	"pleaseEnter": "ກະລຸນາປ້ອນ"
+	"pleaseEnter": "ກະລຸນາປ້ອນ",
+	"systemSuspendedTitle": "ລະບົບປິດໃຫ້ບໍລິການຊົ່ວຄາວ",
+	"systemSuspendedBody": "ກະລຸນາລອງໃໝ່ພາຍຫຼັງ",
+	"systemSuspendedRetry": "ລອງໃໝ່"
 }

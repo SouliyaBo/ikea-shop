@@ -198,5 +198,8 @@
 	"thisOrderCancelled": "此订单已被取消",
 	"status": "状态",
 	"cancelledAmount": "取消金额",
-	"orderCancelledReorder": "此订单已被取消。如需重新订购，请下新订单"
+	"orderCancelledReorder": "此订单已被取消。如需重新订购，请下新订单",
+	"systemSuspendedTitle": "服务暂时不可用",
+	"systemSuspendedBody": "请稍后再试。",
+	"systemSuspendedRetry": "重试"
 }

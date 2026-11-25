@@ -198,5 +198,8 @@
 	"thisOrderCancelled": "この注文はキャンセルされました",
 	"status": "ステータス",
 	"cancelledAmount": "キャンセル金額",
-	"orderCancelledReorder": "この注文はキャンセルされました。再度注文される場合は新しい注文を行ってください"
+	"orderCancelledReorder": "この注文はキャンセルされました。再度注文される場合は新しい注文を行ってください",
+	"systemSuspendedTitle": "サービスは一時的に利用できません",
+	"systemSuspendedBody": "しばらくしてからもう一度お試しください。",
+	"systemSuspendedRetry": "再試行"
 }

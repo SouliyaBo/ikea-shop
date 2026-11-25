@@ -222,5 +222,8 @@
 	"thisOrderCancelled": "This order has been cancelled",
 	"status": "Status",
 	"cancelledAmount": "Cancelled Amount",
-	"orderCancelledReorder": "This order has been cancelled. If you want to order again, please place a new order"
+	"orderCancelledReorder": "This order has been cancelled. If you want to order again, please place a new order",
+	"systemSuspendedTitle": "Service temporarily unavailable",
+	"systemSuspendedBody": "Please try again later.",
+	"systemSuspendedRetry": "Try again"
 }
